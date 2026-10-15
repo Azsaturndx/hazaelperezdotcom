@@ -92,7 +92,7 @@ test('long descriptions paginate with repeated table headers and stay within A4 
   }
 });
 
-function controller({ missingLibrary = false, failImage = false } = {}) {
+function controller({ missingLibrary = false, failImage = false, embedded = false } = {}) {
   let click;
   let ready;
   let readCount = 0;
@@ -105,6 +105,8 @@ function controller({ missingLibrary = false, failImage = false } = {}) {
   const link = { click() { downloads++; }, remove() { events.push('remove'); } };
   const context = { drawImage() {}, fillRect() {} };
   const window = {
+    parent: embedded ? { CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } } } : undefined,
+    frameElement: embedded ? { id: 'quote-frame', dispatchEvent: event => events.push(event) } : undefined,
     jspdf: missingLibrary ? undefined : { jsPDF: {} },
     QuotePDF: {
       readProposal() { readCount++; return { folio: 'TEST-0123' }; },
@@ -145,4 +147,14 @@ test('failed assets or unavailable library show a recoverable error without down
     assert.match(f.status.textContent, /Recarga la página/);
     assert.doesNotMatch(f.status.textContent, /private diagnostics/);
   }
+});
+
+test('embedded export forwards the PDF blob to its host while direct links keep their local download', async () => {
+  const f = controller({ embedded: true });
+  const pending = f.click(); f.ready(); await pending;
+  assert.equal(f.downloads, 0);
+  const event = f.events.find(event => event.type === 'quote-download-pdf');
+  assert.equal(event.detail.filename, 'Propuesta-TEST-0123.pdf');
+  assert.ok(event.detail.blob instanceof Blob);
+  assert.match(f.status.textContent, /PDF generado/);
 });

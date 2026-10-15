@@ -7,18 +7,35 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'quotes/quotes.js'), 'utf8');
 
-function fixture(fetchImpl = async () => response(200)) {
+function fixture(fetchImpl = async () => response(200), { autoPause = true, failFrame = false } = {}) {
   const elements = new Map();
   const handlers = new Map();
   const requests = [];
   const destinations = [];
   const timers = new Map();
+  const classes = new Set();
+  const frameHandlers = new Map();
+  let height = 900;
+  let onResize;
+  const classList = { add: value => classes.add(value), remove: value => classes.delete(value) };
+  const frameDocument = {
+    documentElement: { classList },
+    body: { getBoundingClientRect: () => ({ height }) },
+    querySelector: () => ({}), querySelectorAll: () => [],
+    addEventListener: (name, handler) => frameHandlers.set(name, handler)
+  };
   let focused;
   let nextTimer = 0;
   function element(id) {
     if (!elements.has(id)) elements.set(id, {
       value: '', type: id === 'quote-pin' ? 'password' : 'text',
-      textContent: '', hidden: true, disabled: true, readOnly: false, attrs: {},
+      textContent: '', hidden: true, disabled: true, readOnly: false, attrs: {}, style: {},
+      contentDocument: frameDocument, contentWindow: { location: { pathname: '' } },
+      set src(value) {
+        this.attrs.src = value; this.contentWindow.location.pathname = value;
+        queueMicrotask(() => failFrame ? this.onerror?.() : this.onload?.());
+      },
+      removeAttribute(name) { delete this.attrs[name]; },
       setAttribute(name, value) { this.attrs[name] = value; },
       addEventListener(name, handler) { handlers.set(`${id}:${name}`, handler); },
       focus() { focused = id; }
@@ -26,17 +43,25 @@ function fixture(fetchImpl = async () => response(200)) {
     return elements.get(id);
   }
   const window = {
-    setTimeout(fn) { const id = ++nextTimer; timers.set(id, fn); return id; },
+    setTimeout(fn, ms) {
+      const id = ++nextTimer; timers.set(id, { fn, ms });
+      if (autoPause && ms === 500) queueMicrotask(() => { timers.delete(id); fn(); });
+      return id;
+    },
     clearTimeout(id) { timers.delete(id); },
-    location: { assign(value) { destinations.push(value); } },
+    location: { origin: 'https://example.com', assign(value) { destinations.push(value); } }, scrollTo() {},
     addEventListener(name, handler) { handlers.set(`window:${name}`, handler); }
   };
   vm.runInNewContext(source, {
-    document: { getElementById: element }, window, AbortController,
+    document: { getElementById: element, body: { classList } }, window, AbortController, URL,
+    ResizeObserver: class { constructor(callback) { onResize = callback; } observe() {} disconnect() { onResize = undefined; } },
     fetch: async (...args) => { requests.push(args); return fetchImpl(...args); }
   });
   return {
-    element, requests, destinations, timers,
+    element, requests, destinations, timers, classes,
+    resize(value) { height = value; onResize(); },
+    returnFromFrame() { frameHandlers.get('click')({ button: 0, target: { closest: () => ({ href: 'https://example.com/quotes/' }) }, preventDefault() {} }); },
+    tickPause() { const entry = [...timers.entries()].find(([,timer]) => timer.ms === 500); assert.ok(entry); timers.delete(entry[0]); entry[1].fn(); },
     get focused() { return focused; },
     set(key, code) { element('customer-key').value = key; element('quote-pin').value = code; },
     emit(id, event) { return handlers.get(`${id}:${event}`)({ preventDefault() {} }); },
@@ -54,7 +79,10 @@ test('normalizes CustomerKey, preserves leading zero, and requests only the exac
   assert.equal(f.element('customer-key').value, 'protexa');
   assert.equal(f.requests.length, 1);
   assert.equal(f.requests[0][0], '/quotes/protexa/0123.html');
-  assert.deepEqual(f.destinations, ['/quotes/protexa/0123.html']);
+  assert.deepEqual(f.destinations, []);
+  assert.equal(f.element('quote-frame').attrs.src, '/quotes/protexa/0123.html');
+  assert.equal(f.element('quote-viewer').hidden, false);
+  assert.equal(f.element('main').hidden, true);
   assert.equal(f.requests[0][1].redirect, 'error');
   assert.equal(f.requests[0][1].credentials, 'omit');
   assert.equal(f.requests[0][1].referrerPolicy, 'no-referrer');
@@ -103,7 +131,8 @@ test('network failure is recoverable and does not reveal technical errors', asyn
   assert.doesNotMatch(f.element('quote-status').textContent, /private diagnostic|TypeError/);
   assert.equal(f.element('quote-submit').disabled, false);
   fail = false; await f.submit();
-  assert.deepEqual(f.destinations, ['/quotes/demo/0123.html']);
+  assert.deepEqual(f.destinations, []);
+  assert.equal(f.element('quote-frame').attrs.src, '/quotes/demo/0123.html');
 });
 
 test('timeout aborts the request and restores controls', async () => {
@@ -112,7 +141,7 @@ test('timeout aborts the request and restores controls', async () => {
   }));
   f.set('demo', '0123');
   const pending = f.submit();
-  [...f.timers.values()][0]();
+  [...f.timers.values()][0].fn();
   await pending;
   assert.match(f.element('quote-status').textContent, /conexión/);
   assert.equal(f.timers.size, 0);
@@ -151,6 +180,46 @@ test('PIN visibility has an accessible pressed state and field edits clear valid
   f.emit('customer-key', 'input');
   assert.equal(f.element('customer-error').textContent, '');
   assert.equal(f.element('customer-key').attrs['aria-invalid'], 'false');
+});
+
+const flush = async () => { for (let i = 0; i < 20; i++) await Promise.resolve(); };
+
+test('each status remains visible for its own 500ms minimum without unlocking duplicate submits', async () => {
+  const f = fixture(undefined, { autoPause: false });
+  f.set('protexa', '0123'); const pending = f.submit(); await flush();
+  assert.equal(f.element('quote-status').textContent, 'Buscando tu propuesta…');
+  assert.equal(f.element('quote-frame').attrs.src, undefined);
+  assert.equal(f.element('quote-submit').disabled, true);
+  f.tickPause(); await flush();
+  assert.equal(f.element('quote-status').textContent, 'Navegando a la propuesta…');
+  assert.equal(f.element('quote-viewer').hidden, true);
+  await f.submit(); assert.equal(f.requests.length, 1);
+  f.tickPause(); await pending;
+  assert.equal(f.element('quote-viewer').hidden, false);
+  assert.equal(f.focused, 'quote-viewer');
+});
+
+test('embedded proposal grows and shrinks, and return restores consultation without navigating', async () => {
+  const f = fixture(); f.set('demo', '0123'); await f.submit();
+  assert.equal(f.element('quote-frame').style.height, '900px');
+  f.resize(1500); assert.equal(f.element('quote-frame').style.height, '1500px');
+  f.resize(700); assert.equal(f.element('quote-frame').style.height, '700px');
+  f.returnFromFrame();
+  assert.equal(f.element('main').hidden, false);
+  assert.equal(f.element('quote-viewer').hidden, true);
+  assert.equal(f.element('quote-frame').attrs.src, undefined);
+  assert.equal(f.element('quote-pin').value, '');
+  assert.equal(f.element('quote-skip').attrs.href, '#main');
+  assert.equal(f.focused, 'customer-key');
+  assert.deepEqual(f.destinations, []);
+});
+
+test('failure while loading the iframe leaves consultation usable and does not expose a blank viewer', async () => {
+  const f = fixture(undefined, { failFrame: true }); f.set('demo', '0123'); await f.submit();
+  assert.equal(f.element('quote-viewer').hidden, true);
+  assert.equal(f.element('quote-frame').attrs.src, undefined);
+  assert.equal(f.element('quote-submit').disabled, false);
+  assert.match(f.element('quote-status').textContent, /conexión/);
 });
 
 test('published pages and reusable template retain privacy, resources and proposal navigation', () => {

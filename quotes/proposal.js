@@ -32,13 +32,19 @@
       const model = window.QuotePDF.readProposal(document);
       const signature = await signatureImage();
       const pdf = window.QuotePDF.create(model, { jsPDF: window.jspdf.jsPDF, signature });
-      const url = URL.createObjectURL(pdf.output('blob'));
-      const link = document.createElement('a');
-      link.href = url; link.download = window.QuotePDF.filename(model.folio);
-      document.body.append(link);
-      try { link.click(); } finally {
-        link.remove();
-        window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+      const blob = pdf.output('blob');
+      const filename = window.QuotePDF.filename(model.folio);
+      if (window.parent && window.parent !== window && window.frameElement?.id === 'quote-frame') {
+        window.frameElement.dispatchEvent(new window.parent.CustomEvent('quote-download-pdf', { detail: { blob, filename } }));
+      } else {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url; link.download = filename;
+        document.body.append(link);
+        try { link.click(); } finally {
+          link.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+        }
       }
       status.textContent = 'PDF generado. La descarga está lista; revisa las descargas de tu navegador.';
     } catch {
