@@ -1,6 +1,6 @@
 # Consulta de propuestas
 
-Módulo estático en `/quotes/`, integrado con `styles.css`, el monograma `hp_`, la paleta, las fuentes del sistema y `assets/firma.png` existentes. No requiere paquetes, compilación ni servicios externos. Los estilos y scripts propios están en `quotes/quotes.css`, `quotes/quotes.js` y `quotes/proposal.js`. La portada tiene un enlace discreto en el pie.
+Módulo estático en `/quotes/`, integrado con `styles.css`, el monograma `hp_`, la paleta, las fuentes del sistema y `assets/firma.png` existentes. No requiere instalación, compilación ni servicios externos. La única dependencia de ejecución es una copia local versionada de jsPDF para exportar PDF. Los estilos y scripts propios están en `quotes/quotes.css`, `quotes/quotes.js`, `quotes/proposal.js` y `quotes/proposal-pdf.js`. La portada tiene un enlace discreto en el pie.
 
 ## Identificadores
 
@@ -13,11 +13,31 @@ Módulo estático en `/quotes/`, integrado con `styles.css`, el monograma `hp_`,
 
 1. Elige identificadores que cumplan las reglas; usa el CustomerKey en minúsculas también en disco. Usa identificadores opacos si quieres reducir información en los nombres, sin considerarlos secretos seguros.
 2. Crea `quotes/{customerkey}/` y copia `_templates/proposal.html` a `quotes/{customerkey}/{pin}.html`. Conserva el PIN y sus ceros en el nombre. No copies la plantilla sin completar a la carpeta pública.
-3. Sustituye **todos** los `{{campos}}`, incluidos título, fechas ISO, cliente, folio, vigencia, alcance, hitos, importes, moneda, impuestos y pagos. Escapa texto HTML (`&` como `&amp;`, `<` como `&lt;`). Conserva `noindex`, `no-referrer`, recursos compartidos, enlaces de regreso y estilos de impresión. Revisa cifras, vigencia y datos antes de publicar.
-4. Comprueba la propuesta en móvil y en la vista de impresión A4. El botón **Imprimir / PDF** abre la impresión del navegador; desactiva sus encabezados y pies automáticos para evitar URL, fecha y título añadidos por el navegador. Los estilos ocultan la navegación, repiten cabeceras de tabla y evitan dividir filas y firma; un bloque mayor que una hoja necesariamente puede dividirse.
+3. Sustituye **todos** los `{{campos}}`, incluidos título, fechas ISO, cliente, folio, vigencia, resumen, etapas, actividades, horas, costos, moneda, impuestos y pagos. Escapa texto HTML (`&` como `&amp;`, `<` como `&lt;`). Conserva `noindex`, `no-referrer`, scripts locales, recursos compartidos, clases de estructura, enlaces de regreso y estilos. Revisa cifras, vigencia y datos antes de publicar.
+4. Comprueba la propuesta en móvil y pulsa **Export to PDF**. Se genera y descarga directamente `Propuesta-{folio}.pdf` en formato A4; no se abre impresión. Confirma que el archivo incluye todas las actividades, importes y firma. La descarga es administrada por el navegador: puede pedir ubicación si el usuario tiene configurada esa preferencia.
 5. Comparte `https://hazaelperez.com/quotes/` junto con CustomerKey y PIN, o el enlace directo. El formulario no envía los campos como parámetros de consulta y borra el PIN al volver desde una propuesta.
 
 Ejemplo funcional **totalmente ficticio**: CustomerKey `protexa`, PIN `0123`, archivo `/quotes/protexa/0123.html`. `protexa` es únicamente el identificador de prueba solicitado; el cliente mostrado, Empresa Horizonte Demo, y todas las condiciones son inventados y no representan a ninguna empresa real. No se muestra este ejemplo ni un catálogo en la pantalla de consulta.
+
+## Estructura comercial y edición
+
+La propuesta comienza con cliente, folio, fecha y vigencia. El resumen destaca honorarios únicos, gasto mensual y anual de nube y licenciamiento, entendimiento de requerimientos, solución y beneficios incluidos sin cargos adicionales de servicios. Aclara cuáles beneficios están cubiertos por los honorarios y evita prometer consumo o suscripciones sin costo.
+
+Cada `<details class="milestone">` representa una etapa. En su `<summary>` se muestran nombre, periodo, horas totales y monto de la etapa; la tabla interior contiene **solo actividad y horas**, sin precios unitarios. Duplica o elimina bloques completos para adaptar el proyecto y conserva las clases `milestone-label`, `milestone-hours` y `milestone-amount`. El control nativo permite abrir y cerrar con clic, Enter o Espacio, también sin JavaScript.
+
+Nube y licenciamiento tienen tablas separadas con producto, categoría, descripción, costo mensual y anual, y un subtotal en `<tfoot>`. Duplica o elimina filas de `<tbody>`. La moneda se define con `{{moneda}}` en la plantilla: reemplaza **todas** sus apariciones por la misma moneda ISO. El ejemplo usa MXN.
+
+Las cifras son texto editorial, no una calculadora: al editar, concilia horas de actividades con su etapa, montos de etapas con honorarios y filas de productos con sus subtotales y highlights. Indica expresamente si el anual equivale a 12 mensualidades o incorpora otra condición. No sumes una inversión única al gasto mensual ni mezcles monedas sin explicar conversión y fecha. Mantén consistentes IVA, anticipos y saldo. El cierre incluye un mensaje breve, “Atentamente,”, firma y nombre.
+
+## Exportación directa a PDF
+
+`proposal-pdf.js` lee el **mismo HTML** de la propuesta: no hay otro archivo de precios ni captura raster de la página. Genera texto vectorial seleccionable, tarjetas, tablas, todas las actividades (aunque estén colapsadas), numeración de páginas y firma. El estilo del PDF usa papel blanco, tinta oscura y acentos verdes de la marca. La firma existente se adapta a tinta oscura sobre blanco sin alterar sus trazos. No se incluyen controles, enlaces de navegación ni instrucciones para desplegar etapas.
+
+`proposal.js` convierte el resultado a Blob, inicia la descarga, evita doble clic durante la generación y libera el recurso temporal. Si falla la biblioteca o la firma, muestra un mensaje para reintentar y no descarga un documento incompleto. Todo sucede localmente; solo se solicitan scripts e imágenes del mismo sitio, sin subida del contenido, CDN ni conversión en un servidor. El nombre descargado usa el folio normalizado, sin CustomerKey ni PIN.
+
+La biblioteca es `jspdf@4.2.1`, con licencia MIT incluida en `quotes/vendor/jspdf.LICENSE`; procedencia e integridad en `quotes/vendor/README.md`. No usa los complementos opcionales de HTML, html2canvas o AutoTable. El motor divide descripciones extensas entre páginas y repite los encabezados de tabla; conserva el cierre y la firma juntos. Mantén las clases de la plantilla si quieres que nuevas propuestas se exporten con la misma estructura. Si agregas un bloque especial, añade soporte y verifica el PDF. Las fuentes estándar cubren español y caracteres latinos; para otros alfabetos o emojis hace falta integrar una fuente adecuada. El PDF tiene texto seleccionable pero no etiquetas estructurales PDF/UA; la experiencia accesible principal es el HTML.
+
+El PDF exportado es otra copia del documento: también debe tratarse con la misma discreción que la URL pública. `output/` y `tmp/` son carpetas locales de validación excluidas de Git y de Pages; no se añaden PDFs al directorio público de clientes.
 
 ## Publicación y rutas
 
@@ -35,18 +55,27 @@ Una versión privada requiere backend o funciones de servidor fuera de GitHub Pa
 
 ## Verificación local
 
-Desde la raíz: `python -m http.server 8000 --bind 127.0.0.1`. Abrir `http://127.0.0.1:8000/quotes/`. Para las pruebas automáticas sin dependencias: `node --test tests/quotes.test.cjs`. El servidor local estándar sirve también directorios que Jekyll excluye; úsalo únicamente para desarrollo local.
+Desde la raíz: `python -m http.server 8000 --bind 127.0.0.1`. Abrir `http://127.0.0.1:8000/quotes/`. Para las pruebas automáticas sin instalar paquetes: `node --test tests/quotes.test.cjs tests/proposal.test.cjs`. El servidor local estándar sirve también directorios que Jekyll excluye; úsalo únicamente para desarrollo local.
 
 Revisar: `PROTEXA` con espacios exteriores y `0123` abre la muestra; un PIN inexistente da mensaje sin navegación; `../`, barras, `%2f`, Unicode y espacios internos son inválidos; un fallo de red permite reintentar; doble envío genera una sola consulta; mostrar/ocultar PIN funciona con teclado; regreso, enlaces directos y recarga funcionan; no hay desbordamiento en móvil; PDF legible sin navegación. Las pruebas locales no sustituyen la comprobación final de rutas y cabeceras HTTP en el despliegue aprobado de GitHub Pages.
 
-## Resultado de validación — 15 de octubre de 2026
+## Validación de acceso inicial — 15 de octubre de 2026
 
-- Rama local: `codex/quotes-module`; cambios disponibles para revisión, sin commit, push, fusión ni publicación.
+- Rama de trabajo: `codex/quotes-module`.
 - Ocho pruebas automáticas aprobadas con Node: normalización y ceros iniciales; límites y entradas maliciosas (incluido Unicode que podría transformarse en ASCII); 404/410 frente a fallos HTTP; contenido no HTML; fallo de red y reintento; timeout; doble envío y restauración al volver; visibilidad accesible del PIN; recursos, metadatos y plantilla.
 - Sintaxis JavaScript y `git diff --check` aprobados.
 - Servidor HTTP local: `/quotes` responde 301 hacia `/quotes/`; la propuesta directa responde 200; una propuesta inexistente responde 404.
 - Navegador local: acceso real con `  PROTEXA  ` y `0123`, recarga del documento directo, enlace de regreso, combinación inexistente, rechazo de `../`, foco en campo inválido y acceso por Tab al control del PIN. El árbol de accesibilidad muestra etiquetas, pistas y mensajes de estado. No se realizó una sesión con lector de pantalla externo.
 - Revisión visual de consulta y propuesta en escritorio y móvil. Sin desbordamiento horizontal a anchos de ventana de 320 y 390 px. Firma cargada correctamente. Portada y enlace de propuestas en inglés funcionan; sin errores de consola en esa comprobación.
-- Impresión: estilos A4 revisados y botón conectado al diálogo de impresión; el diálogo impidió completar la inspección visual del PDF en el navegador automatizado. **Pendiente antes de publicar:** revisar paginación y firma en la vista previa de impresión de un navegador de escritorio y comprobar rutas en el despliegue real de Pages. No se accedió a la configuración remota de GitHub.
+- La exportación directa posterior sustituye el botón de impresión de la versión inicial; su resultado se describe a continuación. La comprobación de rutas en el despliegue real de Pages sigue pendiente de una publicación aprobada. No se accedió a la configuración remota de GitHub.
 
 Archivos agregados: `quotes/index.html`, `quotes/quotes.css`, `quotes/quotes.js`, `quotes/proposal.js`, `quotes/protexa/0123.html`, `_templates/proposal.html`, `_config.yml`, `tests/quotes.test.cjs` y este documento. Cambios puntuales en `index.html` (enlace en pie), `script.js` (traducción del enlace) y `README.md` (guía del módulo).
+
+## Validación de resumen, etapas y PDF — 15 de octubre de 2026
+
+- Actualizados ejemplo y plantilla con resumen de precios/requerimientos/solución/valor incluido, etapas colapsables, actividades con horas, tablas de nube y licencias, impuestos/pago y cierre con firma.
+- **14 pruebas automáticas aprobadas**: las ocho de acceso y seis adicionales para conciliación de importes/horas, sumas mensuales/anuales, PDF real con texto y firma, paginación de tablas y descripciones mayores a una página, control de doble exportación, liberación del Blob y recuperación ante recursos no disponibles.
+- En navegador de escritorio: expandir/colapsar con clic, Enter y Espacio; descarga real `Propuesta-DEMO-2026-001.pdf` con todas las etapas colapsadas y sin diálogo de impresión. El PDF incluye las nueve actividades completas.
+- PDF real: cuatro páginas A4 (~19 KB), autor y folio correctos, texto seleccionable, firma visible y numeración. Renderizadas e inspeccionadas las cuatro páginas; comprobados contenido y límites de texto con extracción independiente. Se ajustó paginación para mantener el encabezado de actividades con su primera etapa.
+- En móvil de 390 px: etapas y precios legibles, sin desbordamiento global; las tablas de cinco columnas desplazan horizontalmente dentro de una región etiquetada accesible por teclado. Verificación adicional a 320 px.
+- Nuevos archivos: `quotes/proposal-pdf.js`, `quotes/vendor/jspdf-4.2.1.umd.min.js`, su licencia/procedencia, `tests/proposal.test.cjs` y `.gitignore`. También se actualizaron `quotes/proposal.js`, `quotes/quotes.css`, ejemplo, plantilla, `_config.yml` y esta guía. No se hizo push, fusión ni despliegue durante esta actualización.

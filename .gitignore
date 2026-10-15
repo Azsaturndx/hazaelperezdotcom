@@ -1,0 +1,3 @@
+# Local verification artifacts; never publish generated proposal copies.
+/tmp/
+/output/
