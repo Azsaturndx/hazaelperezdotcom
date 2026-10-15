@@ -1,0 +1,13 @@
+# GitHub Pages serves the existing static files from the repository root.
+# Also exclude quote pages if jekyll-sitemap is enabled in the future.
+defaults:
+  - scope:
+      path: "quotes"
+    values:
+      sitemap: false
+exclude:
+  - README.md
+  - QUOTES.md
+  - build.py
+  - tests
+  - _templates

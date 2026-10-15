@@ -1,0 +1,77 @@
+<!doctype html>
+<!-- Copy to quotes/{customerkey}/{pin}.html and replace every {{...}}.
+     _templates is excluded from GitHub Pages; do not move it into quotes. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Propuesta {{folio}} — Hazael Pérez</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/proposal.js" defer></script>
+</head>
+<body class="quotes-page">
+  <a href="#main" class="skip">Saltar al contenido</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="quotes-header proposal-shell">
+    <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
+    <nav class="proposal-nav" aria-label="Propuesta">
+      <a class="text-link" href="/quotes/">← Volver a consulta</a>
+      <button id="print-proposal" class="button proposal-print" type="button" hidden>Imprimir / PDF</button>
+    </nav>
+  </header>
+  <main id="main" class="proposal proposal-shell">
+    <article aria-labelledby="proposal-title">
+      <header class="proposal-hero">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PROPUESTA COMERCIAL / CLOUD CON INTENCIÓN</p>
+        <h1 id="proposal-title">{{título de la propuesta}}</h1>
+        <p class="proposal-lead">{{objetivo y resultado esperado}}</p>
+        <dl class="proposal-meta">
+          <div><dt>CLIENTE</dt><dd>{{cliente}}</dd></div>
+          <div><dt>FOLIO</dt><dd>{{folio}}</dd></div>
+          <div><dt>FECHA</dt><dd><time datetime="{{AAAA-MM-DD}}">{{fecha legible}}</time></dd></div>
+          <div><dt>VIGENCIA</dt><dd><time datetime="{{AAAA-MM-DD}}">{{fecha límite legible}}</time></dd></div>
+        </dl>
+      </header>
+      <section class="proposal-section" aria-labelledby="summary-title">
+        <h2 id="summary-title"><small>01 /</small>Resumen ejecutivo y necesidad.</h2>
+        <p>{{contexto del cliente, necesidad, prioridades y resultado propuesto}}</p>
+      </section>
+      <section class="proposal-section" aria-labelledby="scope-title">
+        <h2 id="scope-title"><small>02 /</small>Alcance y entregables.</h2>
+        <ul><li>{{actividad, límites cuantificables, entregable y formato}}</li><li>{{criterios de aceptación y rondas de revisión}}</li></ul>
+      </section>
+      <section class="proposal-section" aria-labelledby="timeline-title">
+        <h2 id="timeline-title"><small>03 /</small>Hitos y tiempos estimados.</h2>
+        <table class="proposal-table">
+          <caption class="sr-only">Plan de trabajo y validación por hito</caption>
+          <thead><tr><th scope="col">Hito</th><th scope="col">Tiempo</th><th scope="col">Resultado y validación</th></tr></thead>
+          <tbody><tr><td>{{hito}}</td><td>{{duración estimada}}</td><td>{{entregable y validación}}</td></tr></tbody>
+        </table>
+        <p>{{condiciones de arranque, dependencias y manejo de retrasos}}</p>
+      </section>
+      <section class="proposal-section" aria-labelledby="investment-title">
+        <h2 id="investment-title"><small>04 /</small>Inversión y forma de pago.</h2>
+        <div class="proposal-investment glass"><span class="mono">HONORARIOS DEL PROYECTO · {{moneda ISO}}</span><strong>{{importe antes de impuestos}}</strong><p>{{impuestos: tasa, importe y total; o tratamiento aplicable}}</p></div>
+        <p>{{medio de pago, porcentajes, importes, vencimientos y condiciones de facturación}}</p>
+        <p>{{costos de terceros, gastos y procedimiento de cambios de alcance}}</p>
+      </section>
+      <section class="proposal-section" aria-labelledby="assumptions-title">
+        <h2 id="assumptions-title"><small>05 /</small>Supuestos y exclusiones.</h2>
+        <ul><li>{{responsabilidades del cliente y disponibilidad requerida}}</li><li>{{límites del servicio y exclusiones explícitas}}</li><li>{{supuestos técnicos, económicos y operativos}}</li></ul>
+      </section>
+      <footer class="proposal-closing">
+        <p>{{cierre y siguiente paso para acordar el proyecto}}</p>
+        <img class="proposal-signature" src="/assets/firma.png" width="120" height="147" alt="Firma de Hazael Pérez">
+        <strong>Hazael Pérez</strong><br>
+        <a class="text-link" href="mailto:me@hazaelperez.com">me@hazaelperez.com</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="quotes-footer proposal-shell"><span>Hazael Pérez · Cloud con intención.</span><a href="/quotes/">Volver a consulta</a></footer>
+</body>
+</html>

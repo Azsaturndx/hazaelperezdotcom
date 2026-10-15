@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Consulta tu propuesta comercial con Hazael Pérez.">
+  <title>Consulta de propuestas — Hazael Pérez</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/quotes.js" defer></script>
+</head>
+<body class="quotes-page">
+  <a href="#main" class="skip">Saltar al contenido</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="quotes-header quotes-shell">
+    <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
+    <a class="text-link" href="/">Volver al sitio <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main" class="quotes-access quotes-shell">
+    <div class="quotes-intro">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PROPUESTAS COMERCIALES</p>
+      <h1>Un siguiente paso.<br><span>Con intención.</span></h1>
+      <p>Consulta los detalles de nuestra propuesta: el alcance, la inversión y el camino para avanzar.</p>
+      <div class="quotes-author"><span class="thin-line" aria-hidden="true"></span> Hazael Pérez</div>
+    </div>
+    <section class="quotes-card glass" aria-labelledby="access-title">
+      <span class="mono quotes-overline">TU PRÓXIMO PROYECTO /</span>
+      <h2 id="access-title">Consulta tu propuesta.</h2>
+      <p class="quotes-muted">Ingresa los datos que recibiste para abrir el documento.</p>
+      <form id="quote-form" novalidate>
+        <div class="quote-field">
+          <label for="customer-key">CustomerKey</label>
+          <input id="customer-key" name="customerKey" type="text" required maxlength="48" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="customer-hint customer-error">
+          <p id="customer-hint" class="field-hint">Identificador del cliente: letras, números y guiones.</p>
+          <p id="customer-error" class="field-error"></p>
+        </div>
+        <div class="quote-field">
+          <label for="quote-pin">PIN</label>
+          <div class="pin-control">
+            <input id="quote-pin" name="pin" type="password" inputmode="numeric" required minlength="4" maxlength="12" autocomplete="off" aria-describedby="pin-hint pin-error">
+            <button id="toggle-pin" type="button" aria-controls="quote-pin" aria-pressed="false" hidden>Mostrar PIN</button>
+          </div>
+          <p id="pin-hint" class="field-hint">De 4 a 12 dígitos. Incluye los ceros iniciales.</p>
+          <p id="pin-error" class="field-error"></p>
+        </div>
+        <button id="quote-submit" class="button button-primary quote-submit" type="submit" disabled>
+          <span id="submit-label">Consultar propuesta</span><span class="quote-submit-icon" aria-hidden="true">↗</span>
+        </button>
+        <p id="quote-status" class="quote-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </form>
+      <noscript><p class="field-error">Activa JavaScript para consultar la propuesta o solicita el enlace directo a Hazael.</p></noscript>
+      <p class="quotes-privacy">Acceso mediante la combinación compartida. El documento se abre con una URL directa que puede quedar en el historial. Evita consultarlo en equipos compartidos.</p>
+    </section>
+  </main>
+  <footer class="quotes-footer quotes-shell"><span>Hazael Pérez</span><span>Claridad desde el primer paso.</span></footer>
+</body>
+</html>
