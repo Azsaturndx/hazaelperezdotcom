@@ -10,6 +10,8 @@ Sitio personal estático en HTML, CSS y JavaScript. Diseño oscuro con tarjetas 
 
 ## Interacciones
 
+- **Propuestas comerciales:** acceso desde el pie o `/quotes/`. Instrucciones, reglas, plantilla, privacidad y validación en [QUOTES.md](QUOTES.md).
+
 - Botón EN / ES: cambia el idioma de la página y de la consola.
 - Ctrl + K / ⌘ + K: abre la navegación rápida. Flechas y Enter permiten navegar; Escape cierra el diálogo.
 - La sección de enfoque tiene cuatro etapas. También se puede recorrer con las flechas del teclado.
@@ -36,7 +38,7 @@ El perfil público identificado es [Geronimo Hazael Pérez Antonio](https://mx.l
 
 Los porcentajes de clientes fueron indicados por el titular. No se incluyen nombres, logotipos de clientes ni detalles confidenciales. Los nombres de plataformas se usan únicamente para describir áreas de trabajo, sin sugerir un aval de sus fabricantes. La página expresa un perfil profesional personal.
 
-No se modificó el perfil de LinkedIn ni se publicó el sitio. Sin formularios, backend, analítica, cookies de seguimiento, CDN, fuentes remotas o frameworks. Se puede alojar en cualquier hosting estático. El efecto de cristal utiliza `backdrop-filter`, con fondo alternativo para navegadores que no lo admitan.
+No se modificó el perfil de LinkedIn ni se publicó el sitio. Sin backend, analítica, cookies de seguimiento, CDN, fuentes remotas o frameworks. El formulario de propuestas consulta únicamente archivos HTML del mismo sitio. Se puede alojar en cualquier hosting estático. El efecto de cristal utiliza `backdrop-filter`, con fondo alternativo para navegadores que no lo admitan.
 
 ## Archivos
 
