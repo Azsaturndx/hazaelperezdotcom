@@ -6,10 +6,12 @@
   <meta name="theme-color" content="#080a0c">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="referrer" content="no-referrer">
-  <title>Propuesta de ejemplo — Hazael Pérez</title>
+  <title>DEMO-2026-001 — Propuesta de Hazael Pérez</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/vendor/jspdf-4.2.1.umd.min.js" defer></script>
+  <script src="/quotes/proposal-pdf.js" defer></script>
   <script src="/quotes/proposal.js" defer></script>
 </head>
 <body class="quotes-page">
@@ -19,69 +21,143 @@
     <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
     <nav class="proposal-nav" aria-label="Propuesta">
       <a class="text-link" href="/quotes/">← Volver a consulta</a>
-      <button id="print-proposal" class="button proposal-print" type="button" hidden>Imprimir / PDF</button>
+      <button id="export-proposal" class="button proposal-export" type="button" hidden>Export to PDF</button>
     </nav>
   </header>
+  <div class="proposal-shell export-feedback"><p id="export-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
   <main id="main" class="proposal proposal-shell">
     <article aria-labelledby="proposal-title">
       <header class="proposal-hero">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PROPUESTA COMERCIAL / CLOUD CON INTENCIÓN</p>
         <h1 id="proposal-title">Una arquitectura clara para el siguiente paso.</h1>
-        <p class="proposal-lead">Diagnóstico y hoja de ruta cloud para una organización que busca crecer con decisiones sostenibles.</p>
+        <p class="proposal-lead">Diagnóstico y hoja de ruta cloud con visibilidad de inversión, actividades y costos de operación.</p>
         <dl class="proposal-meta">
           <div><dt>CLIENTE</dt><dd>Empresa Horizonte Demo (ficticia)</dd></div>
-          <div><dt>FOLIO</dt><dd>DEMO-2026-001</dd></div>
+          <div><dt>FOLIO</dt><dd data-proposal-folio>DEMO-2026-001</dd></div>
           <div><dt>FECHA</dt><dd><time datetime="2026-10-15">15 de octubre de 2026</time></dd></div>
-          <div><dt>VIGENCIA</dt><dd>Hasta el <time datetime="2026-11-14">14 de noviembre de 2026</time></dd></div>
+          <div><dt>VIGENCIA</dt><dd><time datetime="2026-11-14">Hasta el 14 de noviembre de 2026</time></dd></div>
         </dl>
-        <p class="proposal-demo">Ejemplo ficticio. Los importes y condiciones son ilustrativos; este documento no constituye una oferta comercial.</p>
+        <p class="proposal-demo">Ejemplo ficticio. Productos, importes y condiciones ilustrativos; no constituye una oferta comercial ni una cotización de proveedores.</p>
       </header>
+
       <section class="proposal-section" aria-labelledby="summary-title">
-        <h2 id="summary-title"><small>01 /</small>Entender antes de construir.</h2>
-        <p>Empresa Horizonte Demo necesita ordenar sus iniciativas cloud, identificar dependencias y contar con criterios claros para decidir dónde invertir. El reto es conectar las prioridades del negocio con una arquitectura viable y una visión de costos.</p>
-        <p>Propongo un diagnóstico acotado de su plataforma de demostración y una hoja de ruta de 90 días. El resultado será una base compartida para priorizar mejoras en resiliencia, operación y economía cloud.</p>
+        <h2 id="summary-title"><small>01 /</small>Resumen de propuesta.</h2>
+        <div class="proposal-highlights">
+          <div class="price-card price-card-feature"><span class="highlight-label">SERVICIOS PROFESIONALES</span><strong>$45,000.00 <small>MXN</small></strong><p>Inversión única · 60 horas de trabajo.</p></div>
+          <div class="price-card"><span class="highlight-label">NUBE / MES</span><strong>$4,200.00 <small>MXN</small></strong><p>$50,400.00 MXN al año.</p></div>
+          <div class="price-card"><span class="highlight-label">LICENCIAS / MES</span><strong>$900.00 <small>MXN</small></strong><p>$10,800.00 MXN al año.</p></div>
+        </div>
+        <p class="proposal-price-note">Importes antes de IVA. Operación recurrente total: $5,100.00 MXN al mes / $61,200.00 MXN al año. Los honorarios se pagan una sola vez y no forman parte del gasto mensual.</p>
+        <div class="summary-grid">
+          <div class="summary-card"><h3>Lo que entendemos.</h3><p>Necesitas ordenar las iniciativas cloud de hasta cinco cargas de trabajo, entender dependencias y decidir dónde invertir con una visión clara de operación y costo.</p></div>
+          <div class="summary-card"><h3>Cómo lo solucionamos.</h3><p>Un diagnóstico acotado, una arquitectura objetivo y dos escenarios económicos. Los convertimos en una hoja de ruta de 90 días con prioridades y decisiones documentadas.</p></div>
+          <div class="summary-card"><h3>Valor adicional, incluido.</h3><p>Incluimos documentación editable, un checklist operativo y una sesión de transferencia dentro de las horas y honorarios acordados, sin cargos adicionales de servicios. Estos beneficios no eliminan el consumo de nube ni las suscripciones indicadas.</p></div>
+        </div>
       </section>
-      <section class="proposal-section" aria-labelledby="scope-title">
-        <h2 id="scope-title"><small>02 /</small>Alcance y entregables.</h2>
+
+      <section class="proposal-section" aria-labelledby="activities-title">
+        <h2 id="activities-title"><small>02 /</small>Actividades y etapas.</h2>
+        <p class="milestone-intro">Cada etapa muestra su inversión y dedicación. Abre una etapa para consultar sus actividades y horas.</p>
+        <div class="milestones">
+          <details class="milestone" open>
+            <summary>
+              <span class="milestone-index">01</span>
+              <span class="milestone-label"><strong>Descubrimiento y diagnóstico</strong><span>Semana 1</span></span>
+              <span class="milestone-hours">12 h</span>
+              <span class="milestone-amount">$9,000.00 MXN</span>
+              <span class="milestone-chevron" aria-hidden="true">+</span>
+            </summary>
+            <table class="proposal-table activity-table">
+              <caption class="sr-only">Actividades de Descubrimiento y diagnóstico</caption>
+              <thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead>
+              <tbody><tr><td>Sesiones de entendimiento de negocio y tecnología</td><td>4 h</td></tr>
+                <tr><td>Revisión de inventario y hasta cinco cargas de trabajo</td><td>5 h</td></tr>
+                <tr><td>Diagnóstico de dependencias, riesgos y oportunidades</td><td>3 h</td></tr></tbody>
+            </table>
+          </details>
+          <details class="milestone">
+            <summary>
+              <span class="milestone-index">02</span>
+              <span class="milestone-label"><strong>Arquitectura y escenarios</strong><span>Semana 2</span></span>
+              <span class="milestone-hours">30 h</span>
+              <span class="milestone-amount">$22,500.00 MXN</span>
+              <span class="milestone-chevron" aria-hidden="true">+</span>
+            </summary>
+            <table class="proposal-table activity-table">
+              <caption class="sr-only">Actividades de Arquitectura y escenarios</caption>
+              <thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead>
+              <tbody><tr><td>Diseño de arquitectura objetivo y decisiones técnicas</td><td>12 h</td></tr>
+                <tr><td>Modelado de escenarios de nube y licenciamiento</td><td>10 h</td></tr>
+                <tr><td>Revisión conjunta y ajustes de la solución</td><td>8 h</td></tr></tbody>
+            </table>
+          </details>
+          <details class="milestone">
+            <summary>
+              <span class="milestone-index">03</span>
+              <span class="milestone-label"><strong>Hoja de ruta y transferencia</strong><span>Semana 3</span></span>
+              <span class="milestone-hours">18 h</span>
+              <span class="milestone-amount">$13,500.00 MXN</span>
+              <span class="milestone-chevron" aria-hidden="true">+</span>
+            </summary>
+            <table class="proposal-table activity-table">
+              <caption class="sr-only">Actividades de Hoja de ruta y transferencia</caption>
+              <thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead>
+              <tbody><tr><td>Hoja de ruta priorizada para 90 días</td><td>8 h</td></tr>
+                <tr><td>Documentación editable y checklist de operación</td><td>6 h</td></tr>
+                <tr><td>Sesión de transferencia y cierre de entregables</td><td>4 h</td></tr></tbody>
+            </table>
+          </details>
+        </div>
+        <p class="milestone-total">Total de servicios: 60 horas · $45,000.00 MXN antes de IVA.</p>
+        <p>Duración estimada: tres semanas desde la aceptación escrita, el anticipo y la disponibilidad de información. Cada hito incluye revisión con el cliente y una ronda consolidada de ajustes dentro del alcance.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="cloud-title">
+        <h2 id="cloud-title"><small>03 /</small>Costos de nube.</h2>
+        <p>Escenario base de referencia. Se resume el consumo estimado por producto para mantener visible el gasto operativo. Moneda: MXN; importes antes de IVA.</p>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Costos de nube: desliza horizontalmente si es necesario">
+          <table class="proposal-table cost-table">
+            <caption class="sr-only">Costos de nube. Todos los importes en MXN antes de IVA.</caption>
+            <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col">Descripción</th><th scope="col">Costo mensual</th><th scope="col">Costo anual</th></tr></thead>
+            <tbody><tr><td>Cómputo Demo</td><td>Cómputo</td><td>Entorno administrado para la carga de trabajo de demostración.</td><td>$3,000.00 MXN</td><td>$36,000.00 MXN</td></tr>
+              <tr><td>Almacenamiento Demo</td><td>Datos</td><td>Capacidad de almacenamiento y respaldos del escenario base.</td><td>$800.00 MXN</td><td>$9,600.00 MXN</td></tr>
+              <tr><td>Observabilidad Demo</td><td>Operación</td><td>Retención de métricas y registros de la plataforma.</td><td>$400.00 MXN</td><td>$4,800.00 MXN</td></tr></tbody>
+            <tfoot><tr><th scope="row" colspan="3">Total de nube</th><td>$4,200.00 MXN</td><td>$50,400.00 MXN</td></tr></tfoot>
+          </table>
+        </div>
+        <p>Estimación ficticia con consumo estable durante 12 meses; costo anual = mensual × 12. No incluye crecimiento, variaciones de consumo, transferencia extraordinaria de datos ni cambios de tarifas. No hay descuentos o ahorros garantizados.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="license-title">
+        <h2 id="license-title"><small>04 /</small>Costos de licenciamiento.</h2>
+        <p>Suscripciones del escenario propuesto, separadas de los servicios profesionales y del consumo de nube. Moneda: MXN; importes antes de IVA.</p>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Costos de licenciamiento: desliza horizontalmente si es necesario">
+          <table class="proposal-table cost-table">
+            <caption class="sr-only">Costos de licenciamiento. Todos los importes en MXN antes de IVA.</caption>
+            <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col">Descripción</th><th scope="col">Costo mensual</th><th scope="col">Costo anual</th></tr></thead>
+            <tbody><tr><td>Suite operativa Demo</td><td>Productividad</td><td>Suscripción para el equipo definido en el escenario base.</td><td>$600.00 MXN</td><td>$7,200.00 MXN</td></tr>
+              <tr><td>Editor de diagramas Demo</td><td>Diseño</td><td>Suscripción para mantener los diagramas entregados.</td><td>$300.00 MXN</td><td>$3,600.00 MXN</td></tr></tbody>
+            <tfoot><tr><th scope="row" colspan="3">Total de licenciamiento</th><td>$900.00 MXN</td><td>$10,800.00 MXN</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="proposal-recurring"><h3>Operación recurrente total.</h3><p>Nube + licencias: $5,100.00 MXN al mes / $61,200.00 MXN al año, antes de IVA. La referencia anual considera 12 mensualidades, sin compromiso de precio ni descuento anual.</p></div>
+        <p>Productos y montos de demostración. El cliente contrata y paga nube y licencias directamente con sus proveedores; los precios, usuarios, periodos y condiciones finales deben confirmarse antes de contratar.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="terms-title">
+        <h2 id="terms-title"><small>05 /</small>Condiciones de la propuesta.</h2>
+        <p>Servicios profesionales: $45,000.00 MXN + IVA ilustrativo del 16% ($7,200.00 MXN); total con IVA: $52,200.00 MXN. Los costos recurrentes se muestran antes de impuestos y se facturan por separado por cada proveedor.</p>
+        <p>Pago por transferencia: 50% al aceptar y 50% contra entrega final. Cada pago de servicios equivale a $26,100.00 MXN con IVA. El saldo vence cinco días hábiles después de la entrega; los datos de pago se comparten por separado.</p>
         <ul>
-          <li><strong>Descubrimiento:</strong> dos sesiones de hasta 90 minutos con responsables de negocio y tecnología; revisión de hasta cinco cargas de trabajo.</li>
-          <li><strong>Diagnóstico:</strong> inventario de alto nivel, dependencias, riesgos y oportunidades documentadas.</li>
-          <li><strong>Diseño:</strong> un diagrama de arquitectura objetivo y un registro de decisiones con sus supuestos.</li>
-          <li><strong>Economía:</strong> estimación mensual de consumo con dos escenarios, basada en la información disponible; no representa una cotización del proveedor cloud.</li>
-          <li><strong>Hoja de ruta:</strong> iniciativas priorizadas para 90 días, responsables sugeridos y sesión final de 60 minutos. Entrega en PDF y archivos editables de diagramas.</li>
+          <li>Trabajo remoto, con un responsable del cliente y reportes anonimizados. No se requieren contraseñas ni acceso de escritura a producción.</li>
+          <li>El cliente dispone de cinco días hábiles para enviar comentarios por hito. Las demoras de información o validación requieren ajustar el calendario de común acuerdo.</li>
+          <li>No incluye implementación, migración, pruebas de penetración, auditoría regulatoria ni soporte continuo. Todo cambio de alcance se acuerda y cotiza por escrito antes de ejecutarse.</li>
         </ul>
       </section>
-      <section class="proposal-section" aria-labelledby="timeline-title">
-        <h2 id="timeline-title"><small>03 /</small>Hitos y tiempos estimados.</h2>
-        <table class="proposal-table">
-          <caption class="sr-only">Plan de trabajo de tres semanas a partir del arranque acordado</caption>
-          <thead><tr><th scope="col">Hito</th><th scope="col">Tiempo</th><th scope="col">Resultado y validación</th></tr></thead>
-          <tbody>
-            <tr><td>Descubrimiento</td><td>Semana 1</td><td>Contexto e inventario revisados con el responsable del cliente.</td></tr>
-            <tr><td>Arquitectura y escenarios</td><td>Semana 2</td><td>Diseño objetivo y supuestos económicos presentados para comentarios.</td></tr>
-            <tr><td>Hoja de ruta y cierre</td><td>Semana 3</td><td>Entrega final con una ronda de ajustes y revisión conjunta.</td></tr>
-          </tbody>
-        </table>
-        <p>El calendario inicia después de la aceptación escrita y del anticipo, sujeto a disponibilidad de información y participantes. El cliente dispone de cinco días hábiles para enviar comentarios por hito; las demoras requieren ajustar las fechas de común acuerdo.</p>
-      </section>
-      <section class="proposal-section" aria-labelledby="investment-title">
-        <h2 id="investment-title"><small>04 /</small>Inversión y forma de pago.</h2>
-        <div class="proposal-investment glass"><span class="mono">HONORARIOS DEL PROYECTO · MXN</span><strong>$45,000.00</strong><p>Más IVA del 16%: $7,200.00 MXN. Total ilustrativo con IVA: $52,200.00 MXN.</p></div>
-        <p>Pago por transferencia: 50% al aceptar y 50% contra la entrega final; cada pago equivale a $26,100.00 MXN con IVA. El saldo se cubre dentro de los cinco días hábiles posteriores a la entrega. Los datos de pago se comparten por separado.</p>
-        <p>La inversión cubre únicamente los servicios descritos. Licencias, suscripciones y consumo cloud se contratan y pagan directamente por el cliente. Cualquier cambio de alcance se acuerda y cotiza por escrito antes de ejecutarlo.</p>
-      </section>
-      <section class="proposal-section" aria-labelledby="assumptions-title">
-        <h2 id="assumptions-title"><small>05 /</small>Supuestos y exclusiones.</h2>
-        <ul>
-          <li>Trabajo remoto en horario laboral de México, con un responsable del cliente para coordinar decisiones.</li>
-          <li>El cliente proporciona inventarios y reportes anonimizados. No se requieren contraseñas ni acceso de escritura a producción.</li>
-          <li>Se incluye una ronda consolidada de ajustes dentro del alcance, recibida durante los cinco días hábiles posteriores a cada entrega.</li>
-          <li>No incluye implementación, migración, pruebas de penetración, auditoría regulatoria, soporte continuo ni garantías de ahorro.</li>
-          <li>Las estimaciones dependen de los datos recibidos y de las tarifas vigentes del proveedor al momento de su elaboración.</li>
-        </ul>
-      </section>
+
       <footer class="proposal-closing">
-        <p>El siguiente paso es revisar juntos el alcance y acordar el arranque. Gracias por considerar una conversación que conecte tecnología y negocio.</p>
+        <p class="closing-message">Gracias por considerar esta propuesta. Será un gusto revisar contigo los detalles y acordar el siguiente paso.</p>
+        <p class="closing-salutation">Atentamente,</p>
         <img class="proposal-signature" src="/assets/firma.png" width="120" height="147" alt="Firma de Hazael Pérez">
         <strong>Hazael Pérez</strong><br>
         <a class="text-link" href="mailto:me@hazaelperez.com">me@hazaelperez.com</a>
