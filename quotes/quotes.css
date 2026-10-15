@@ -33,6 +33,13 @@
 .quote-status { min-height: 4.95em; margin-top: 14px; color: var(--text); font-size: 12px; line-height: 1.65; }
 .quotes-privacy { border-top: 1px solid var(--border); padding-top: 18px; font-size: 11px; }
 .quotes-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 24px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.quotes-access[hidden], .quote-viewer[hidden] { display: none; }
+.quote-viewer { width: 100%; outline: none; }
+.quote-frame { display: block; width: 100%; height: 100vh; border: 0; background: var(--bg); }
+.quotes-page.is-viewing > .quotes-header, .quotes-page.is-viewing > .quotes-footer { display: none; }
+/* The embedded document grows with its content, not with its own viewport. */
+.proposal-embedded .quotes-page { min-height: 0; }
+.proposal-embedded { scroll-behavior: auto; }
 .proposal-shell { width: min(960px, calc(100% - 80px)); margin-inline: auto; }
 .proposal-nav { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
 .proposal-export { min-width: 136px; background: transparent; border: 1px solid var(--border); color: var(--text); }

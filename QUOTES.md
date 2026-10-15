@@ -19,6 +19,18 @@ Módulo estático en `/quotes/`, integrado con `styles.css`, el monograma `hp_`,
 
 Ejemplo funcional **totalmente ficticio**: CustomerKey `protexa`, PIN `0123`, archivo `/quotes/protexa/0123.html`. `protexa` es únicamente el identificador de prueba solicitado; el cliente mostrado, Empresa Horizonte Demo, y todas las condiciones son inventados y no representan a ninguna empresa real. No se muestra este ejemplo ni un catálogo en la pantalla de consulta.
 
+## Consulta con dirección visible fija
+
+Desde `/quotes/`, el formulario verifica la propuesta y después la carga en un iframe del mismo origen. La dirección principal permanece en `/quotes/`; no se navega a la ruta de la propuesta ni se usa `replaceState` para ocultarla después. La propuesta conserva su propio encabezado, estilos y botón Export to PDF, sin duplicar la cabecera/pie de la consulta. El iframe tiene un título accesible y ajusta su altura al contenido mediante ResizeObserver, también al desplegar o colapsar etapas, para mantener un solo desplazamiento vertical.
+
+El estado **“Buscando tu propuesta…”** permanece visible al menos 500 ms, en paralelo con la comprobación HTTP. Si existe, **“Navegando a la propuesta…”** permanece otros 500 ms como mínimo, mientras se carga el iframe. Si la red tarda más, se conserva el estado hasta que termine la operación. El formulario sigue bloqueado durante ambos estados. Hay un límite de 12 segundos para la comprobación y otro para cargar el documento; los errores permiten reintentar.
+
+Los enlaces “Volver a consulta” dentro de la propuesta cierran el iframe, borran el PIN y devuelven el foco al CustomerKey sin modificar la dirección principal. La navegación al inicio del sitio sale del iframe. El PDF se genera en el documento de la propuesta y su Blob se entrega mediante un evento local al contenedor, que inicia la descarga desde la página principal. Los enlaces directos a propuestas conservan su descarga autónoma y siguen funcionando.
+
+Al recargar `/quotes/` se muestra el formulario: no se guarda la combinación en localStorage, sessionStorage ni parámetros. Para probar este flujo localmente, usa el servidor HTTP descrito abajo; abrir `index.html` por `file://` no sirve para consultar las propuestas con sus recursos y permisos de origen.
+
+Esto es una mejora de presentación, **no una protección de acceso**. La ruta real continúa en el atributo src del iframe, las solicitudes de red y los archivos del repositorio. Puede descubrirse y abrirse directamente. La política no-referrer se conserva en el iframe y las propuestas.
+
 ## Estructura comercial y edición
 
 La propuesta comienza con cliente, folio, fecha y vigencia. El resumen destaca honorarios únicos, gasto mensual y anual de nube y licenciamiento, entendimiento de requerimientos, solución y beneficios incluidos sin cargos adicionales de servicios. Aclara cuáles beneficios están cubiertos por los honorarios y evita prometer consumo o suscripciones sin costo.
@@ -79,3 +91,10 @@ Archivos agregados: `quotes/index.html`, `quotes/quotes.css`, `quotes/quotes.js`
 - PDF real: cuatro páginas A4 (~19 KB), autor y folio correctos, texto seleccionable, firma visible y numeración. Renderizadas e inspeccionadas las cuatro páginas; comprobados contenido y límites de texto con extracción independiente. Se ajustó paginación para mantener el encabezado de actividades con su primera etapa.
 - En móvil de 390 px: etapas y precios legibles, sin desbordamiento global; las tablas de cinco columnas desplazan horizontalmente dentro de una región etiquetada accesible por teclado. Verificación adicional a 320 px.
 - Nuevos archivos: `quotes/proposal-pdf.js`, `quotes/vendor/jspdf-4.2.1.umd.min.js`, su licencia/procedencia, `tests/proposal.test.cjs` y `.gitignore`. También se actualizaron `quotes/proposal.js`, `quotes/quotes.css`, ejemplo, plantilla, `_config.yml` y esta guía. No se hizo push, fusión ni despliegue durante esta actualización.
+
+## Validación de vista incrustada — 15 de octubre de 2026
+
+- **18 pruebas automáticas aprobadas**: se conservaron las comprobaciones de acceso/PDF y se añadieron estados con temporizadores controlados, visibilidad y foco del contenedor, crecimiento/reducción del iframe, retorno sin navegación, fallo de carga recuperable y entrega del PDF al contenedor.
+- Navegador local: `protexa` / `0123` muestra la propuesta dentro de `/quotes/`; dirección principal comprobada sin ruta ni PIN. Al abrir/cerrar la segunda etapa, la altura cambió de 4880 a 5111 px y regresó a 4880 px en el ancho de prueba.
+- Descarga real de PDF desde el iframe, iniciada por la página principal; el navegador recibió el archivo. Regreso al formulario comprobado con foco en CustomerKey y PIN vacío. Recarga devuelve el formulario. Combinación inexistente permanece en `/quotes/` con su mensaje de error.
+- Modificados `quotes/index.html`, `quotes/quotes.js`, `quotes/quotes.css`, `quotes/proposal.js`, las dos suites de pruebas y esta guía. Sin cambios de autenticación, dependencias nuevas, push, fusión o despliegue.

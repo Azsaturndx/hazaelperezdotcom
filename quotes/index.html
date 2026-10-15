@@ -14,7 +14,7 @@
   <script src="/quotes/quotes.js" defer></script>
 </head>
 <body class="quotes-page">
-  <a href="#main" class="skip">Saltar al contenido</a>
+  <a id="quote-skip" href="#main" class="skip">Saltar al contenido</a>
   <div class="ambient" aria-hidden="true"></div>
   <header class="quotes-header quotes-shell">
     <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
@@ -53,9 +53,12 @@
         <p id="quote-status" class="quote-status" role="status" aria-live="polite" aria-atomic="true"></p>
       </form>
       <noscript><p class="field-error">Activa JavaScript para consultar la propuesta o solicita el enlace directo a Hazael.</p></noscript>
-      <p class="quotes-privacy">Acceso mediante la combinación compartida. El documento se abre con una URL directa que puede quedar en el historial. Evita consultarlo en equipos compartidos.</p>
+      <p class="quotes-privacy">Acceso mediante la combinación compartida. Evita consultarlo en equipos compartidos. La propuesta tiene una dirección propia aunque se muestre dentro de esta página.</p>
     </section>
   </main>
+  <section id="quote-viewer" class="quote-viewer" aria-label="Propuesta comercial" tabindex="-1" hidden>
+    <iframe id="quote-frame" class="quote-frame" title="Propuesta comercial de Hazael Pérez" referrerpolicy="no-referrer"></iframe>
+  </section>
   <footer class="quotes-footer quotes-shell"><span>Hazael Pérez</span><span>Claridad desde el primer paso.</span></footer>
 </body>
 </html>
