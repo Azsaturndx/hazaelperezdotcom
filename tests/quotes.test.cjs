@@ -89,6 +89,14 @@ test('normalizes CustomerKey, preserves leading zero, and requests only the exac
   assert.equal(f.timers.size, 0);
 });
 
+test('NIC-MG routes the approved PIN to its exact embedded proposal without navigation', async () => {
+  const f = fixture(); f.set('  NIC-MG  ', '1177'); await f.submit();
+  assert.equal(f.requests[0][0], '/quotes/nic-mg/1177.html');
+  assert.equal(f.element('quote-frame').attrs.src, '/quotes/nic-mg/1177.html');
+  assert.equal(f.element('quote-viewer').hidden, false);
+  assert.deepEqual(f.destinations, []);
+});
+
 test('rejects path manipulation, encoded input, ambiguous Unicode and invalid boundaries before any request', async () => {
   const invalidKeys = ['', '../', 'a/b', 'a\\b', '%2e%2e', 'a%252fb', 'a b', 'a\nb', '-demo', 'demo-', 'a--b', 'José', 'ＤＥＭＯ', 'K', 'a'.repeat(49), 'a?b', 'a#b'];
   for (const key of invalidKeys) {

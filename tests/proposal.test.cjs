@@ -71,6 +71,23 @@ test('real PDF contains stage details, signature image and page numbers as text'
   assert.throws(() => create(model(), { jsPDF }), /Signature/);
 });
 
+test('vector PDF renders pie and bar charts with explicit labels and units', () => {
+  const data = model();
+  data.sections[0].blocks = [
+    { type: 'chart', kind: 'pie', title: 'Team distribution', note: 'Hours and FTE-month', items: [
+      { label: 'Architecture', value: 16 }, { label: 'Azure DevOps', value: 37.5 },
+      { label: 'Networks', value: 8 }, { label: 'PostgreSQL', value: 11 }, { label: 'FinOps', value: 7 }
+    ] },
+    { type: 'chart', kind: 'bars', title: 'Monthly cloud costs', note: 'USD per month - not additive', items: [
+      { label: 'PAYG', value: 1275.50 }, { label: '1 year', value: 1027.92 }, { label: '3 years', value: 891.03 }
+    ] }
+  ];
+  const pdf = create(data, { jsPDF, signature });
+  const raw = pdf.internal.pages.flat().join('\n');
+  for (const text of ['Team distribution','47.2%','Monthly cloud costs','1,275.50','891.03']) assert.ok(raw.includes(text), text);
+  assert.match(raw, /FTE-mes/);
+});
+
 test('long descriptions paginate with repeated table headers and stay within A4 margins', () => {
   const data = model();
   data.sections[0].blocks = [{

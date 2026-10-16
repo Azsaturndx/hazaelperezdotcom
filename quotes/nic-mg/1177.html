@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>NIC-MG-2026-001 — Propuesta de Hazael Pérez</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/vendor/jspdf-4.2.1.umd.min.js" defer></script>
+  <script src="/quotes/proposal-pdf.js" defer></script>
+  <script src="/quotes/proposal.js" defer></script>
+  <script src="/quotes/cost-scenarios.js" defer></script>
+  <script src="/quotes/proposal-charts.js" defer></script>
+</head>
+<body class="quotes-page">
+  <a href="#main" class="skip">Saltar al contenido</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="quotes-header proposal-shell">
+    <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
+    <nav class="proposal-nav" aria-label="Propuesta">
+      <a class="text-link" href="/quotes/">← Volver a consulta</a>
+      <button id="export-proposal" class="button proposal-export" type="button" hidden>Export to PDF</button>
+    </nav>
+  </header>
+  <div class="proposal-shell export-feedback"><p id="export-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
+  <main id="main" class="proposal proposal-shell">
+    <article aria-labelledby="proposal-title">
+      <header class="proposal-hero">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PROPUESTA COMERCIAL / CLOUD CON INTENCIÓN</p>
+        <h1 id="proposal-title">Odoo en Azure.<br> Una base para crecer.</h1>
+        <p class="proposal-lead">Infraestructura privada, conectividad con corporativo y costos visibles para el primer despliegue de Moderna en Azure.</p>
+        <dl class="proposal-meta">
+          <div><dt>CLIENTE</dt><dd>Moderna · NIC-MG</dd></div>
+          <div><dt>FOLIO</dt><dd data-proposal-folio>NIC-MG-2026-001</dd></div>
+          <div><dt>FECHA</dt><dd><time datetime="2026-10-15">15 de octubre de 2026</time></dd></div>
+          <div><dt>VIGENCIA</dt><dd><time datetime="2026-11-14">14 de noviembre de 2026</time></dd></div>
+        </dl>
+      </header>
+
+      <section class="proposal-section" aria-labelledby="summary-title">
+        <h2 id="summary-title"><small>01 /</small>Resumen de propuesta.</h2>
+        <div class="proposal-highlights">
+          <div class="price-card price-card-feature"><span class="highlight-label">SERVICIOS PROFESIONALES</span><strong>$2,385.00 <small>USD</small></strong><p>Pago único · 79.5 horas a USD 30/h.</p></div>
+          <div class="price-card"><span class="highlight-label" id="cloud-summary-label">NUBE / MES · PAYG</span><strong id="cloud-summary-value">$1,275.50 <small>USD</small></strong><p id="cloud-summary-note">$15,306.01 USD al año. Estimación provisional.</p></div>
+          <div class="price-card"><span class="highlight-label">LICENCIAS INCLUIDAS / MES</span><strong>$0.00 <small>USD</small></strong><p>Ubuntu, PostgreSQL y Azure DevOps gratuito. Odoo a cargo del cliente, fuera de este importe.</p></div>
+        </div>
+        <p class="proposal-price-note">Importes antes de impuestos. Consumo Azure separado de los honorarios. Las alternativas PAYG, reserva 1 año y reserva 3 años no son aditivas; se elige solamente una. No se incluye operación mensual continua.</p>
+        <div class="summary-grid">
+          <div class="summary-card"><h3>Lo que entendemos.</h3><p>El servidor central seguirá en las instalaciones y concentra información de 46 sucursales y crédito y cobranza. Odoo sustituirá el módulo contable de CONTPAQi. Se necesita alojarlo sin comprar otro servidor y mejorar el respaldo semanal actual. No se contempla migrar contabilidad.</p></div>
+          <div class="summary-card"><h3>Cómo lo solucionamos.</h3><p>Una VM Linux privada en Azure Mexico Central, con PostgreSQL en la misma VM, conectada por VPN al FortiGate corporativo. Infraestructura como código en Azure Repos, respaldos diarios comprobados, monitoreo y una base de gobierno proporcional al proyecto.</p></div>
+          <div class="summary-card"><h3>Valor adicional, incluido.</h3><p>Etiquetado desde el origen, vistas de costos, budgets, alertas, inventario y runbooks; despliegue reproducible sin secretos en el repositorio, transferencia al equipo de TI y revisión de optimización después del go-live. Sin honorarios adicionales fuera de las horas cotizadas.</p></div>
+        </div>
+        <aside class="proposal-warning" aria-label="Validación del dimensionamiento"><p><strong>Dimensionamiento recibido del cliente.</strong> Se conserva el perfil solicitado de 16 vCPU / 64 GiB. La primera etapa confirma usuarios, concurrencia, crecimiento, IOPS y carga antes de desplegar; el tamaño solicitado no garantiza por sí solo el desempeño de Odoo.</p></aside>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="architecture-title">
+        <h2 id="architecture-title"><small>02 /</small>Arquitectura y protección.</h2>
+        <p>Corporativo / FortiGate → VPN sitio a sitio → Hub Azure / VPN Gateway → peering privado → Spoke Odoo / VM y PostgreSQL.</p>
+        <ul>
+          <li>Una Hub y una Spoke en Mexico Central, con rangos privados sin traslape. La Spoke utiliza la VPN de la Hub mediante gateway transit; no se duplica el gateway.</li>
+          <li>Una VM D16s_v5 Ubuntu, 16 vCPU / 64 GiB RAM, en una sola zona y sin IP pública. Discos Premium SSD LRS: 64 GiB de sistema, 512 GiB y 1,024 GiB de datos.</li>
+          <li>PostgreSQL en la misma VM. Odoo, su instalación y configuración funcional son responsabilidad del cliente o su proveedor; se incluye coordinación técnica de infraestructura.</li>
+          <li>VPN Gateway VpnGw1AZ en la Hub; NAT Gateway en la Spoke para actualizaciones. Dos IP Standard para esos gateways, ninguna para la VM. NAT no sustituye un firewall ni filtrado de destinos.</li>
+          <li>Key Vault para secretos de infraestructura que apliquen, con acceso mínimo mediante identidad administrada. La integración de secretos internos de Odoo requiere coordinación con su proveedor. Azure DevOps utiliza identidad federada, no contraseñas de despliegue en el repositorio.</li>
+          <li>Respaldos diarios consistentes de PostgreSQL y filestore de Odoo, coordinados con la captura de la VM, con validación mediante restauración. Un respaldo de VM aislado no sustituye la comprobación de consistencia del ERP.</li>
+        </ul>
+        <aside class="proposal-warning" aria-label="Límite de conectividad"><p><strong>Conectividad recibida: solamente corporativo.</strong> No se publica Odoo en Internet. Habilitar acceso desde sucursales o usuarios remotos requiere validar rutas, reglas, ancho de banda, capacidad del FortiGate y posibles túneles adicionales; puede modificar alcance y costo.</p></aside>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Política de respaldos">
+          <table class="proposal-table cost-table">
+            <thead><tr><th scope="col">Nivel</th><th scope="col">Frecuencia</th><th scope="col">Uso</th><th scope="col">Retención</th><th scope="col">Almacenamiento</th></tr></thead>
+            <tbody>
+              <tr><td>Diario</td><td>Una vez al día</td><td>Recuperación operativa.</td><td>7 días</td><td>LRS</td></tr>
+              <tr><td>Mensual</td><td>Una vez al mes</td><td>Cierre y auditoría del ejercicio.</td><td>12 meses</td><td>LRS</td></tr>
+              <tr><td>Anual</td><td>Una vez al año</td><td>Cierre fiscal; validar con el área fiscal.</td><td>1 año</td><td>LRS</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Disponibilidad:</strong> VM única, sin alta disponibilidad ni recuperación en otra región. LRS no protege frente a la pérdida de una zona o región. Objetivo de pérdida de datos de hasta 24 horas, sujeto a respaldos diarios exitosos y consistentes; fallas de respaldo pueden ampliarlo. El tiempo de recuperación se medirá en pruebas, no se garantiza por anticipado. El SLA de infraestructura no es un SLA de Odoo.</p>
+        <p><strong>Recomendación futura, no incluida:</strong> evaluar archivado de WAL y PITR de PostgreSQL para reducir la pérdida de datos, coordinándolo con el filestore. Requiere diseño, almacenamiento, operación y pruebas; no se presenta como una protección gratuita del ERP.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="activities-title">
+        <h2 id="activities-title"><small>03 /</small>Actividades y etapas.</h2>
+        <p class="milestone-intro">Abre cada etapa para ver actividades y horas. Los montos corresponden exclusivamente a servicios profesionales.</p>
+        <div class="milestones">
+          <details class="milestone" open>
+            <summary><span class="milestone-index">01</span><span class="milestone-label"><strong>Validación inicial</strong><span>Inicio · semana 1</span></span><span class="milestone-hours">8 h</span><span class="milestone-amount">$240.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de validación inicial</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Confirmar alcance y responsabilidades con TI y proveedor Odoo.</td><td>2 h</td></tr>
+              <tr><td>Validar uso, usuarios concurrentes, datos, crecimiento y sizing solicitado.</td><td>2 h</td></tr>
+              <tr><td>Validar FortiGate, direccionamiento, conectividad y accesos.</td><td>2 h</td></tr>
+              <tr><td>Acordar aceptación técnica, RPO y responsables de recuperación.</td><td>2 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">02</span><span class="milestone-label"><strong>Diseño de la solución</strong><span>Semana 1</span></span><span class="milestone-hours">2 h</span><span class="milestone-amount">$60.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de diseño</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody><tr><td>Definir arquitectura resumida, componentes y conectividad Hub–Spoke. Se entrega un diseño proporcional a este despliegue.</td><td>2 h</td></tr></tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">03</span><span class="milestone-label"><strong>IaC y Azure DevOps</strong><span>Semana 1 · plantillas estándar reutilizables</span></span><span class="milestone-hours">3.5 h</span><span class="milestone-amount">$105.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de IaC</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Configurar repositorio privado en Azure Repos y ramas.</td><td>0.5 h</td></tr>
+              <tr><td>Configurar pipeline con identidad federada y un usuario administrador.</td><td>1 h</td></tr>
+              <tr><td>Parametrizar Bicep de Backup.</td><td>1 h</td></tr>
+              <tr><td>Probar el pipeline de despliegue.</td><td>1 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">04</span><span class="milestone-label"><strong>Despliegue y conectividad</strong><span>Semanas 1–2</span></span><span class="milestone-hours">17 h</span><span class="milestone-amount">$510.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de despliegue</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Desplegar y verificar plantillas estándar: redes, peering, VM y servicios base.</td><td>2 h</td></tr>
+              <tr><td>Configurar Linux, discos y hardening base.</td><td>4 h</td></tr>
+              <tr><td>Instalar y configurar PostgreSQL para el proveedor Odoo.</td><td>3 h</td></tr>
+              <tr><td>Configurar VPN Gateway y FortiGate corporativo.</td><td>4 h</td></tr>
+              <tr><td>Probar rutas, resolución y conectividad privada.</td><td>2 h</td></tr>
+              <tr><td>Entregar accesos técnicos y coordinar instalación con proveedor Odoo.</td><td>2 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">05</span><span class="milestone-label"><strong>Respaldos y recuperación</strong><span>Semana 2</span></span><span class="milestone-hours">13 h</span><span class="milestone-amount">$390.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de protección</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Automatizar respaldo diario consistente de PostgreSQL y filestore.</td><td>4 h</td></tr>
+              <tr><td>Configurar retención y políticas de Backup.</td><td>2 h</td></tr>
+              <tr><td>Restaurar base y filestore; verificar consistencia con proveedor Odoo.</td><td>4 h</td></tr>
+              <tr><td>Probar restauración de VM y registrar tiempos y evidencias.</td><td>3 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">06</span><span class="milestone-label"><strong>Gobierno, observabilidad y FinOps</strong><span>Semana 2</span></span><span class="milestone-hours">10 h</span><span class="milestone-amount">$300.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de gobierno</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Configurar telemetría, tablero y alertas de infraestructura y respaldo.</td><td>4 h</td></tr>
+              <tr><td>Configurar etiquetas, budgets y vistas de costos.</td><td>2 h</td></tr>
+              <tr><td>Revisar accesos mínimos, identidad administrada, Key Vault y exposición mediante políticas base.</td><td>2 h</td></tr>
+              <tr><td>Registrar línea base de consumo y oportunidades de optimización.</td><td>2 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">07</span><span class="milestone-label"><strong>Go-live y transferencia</strong><span>Semanas 2–3</span></span><span class="milestone-hours">14 h</span><span class="milestone-amount">$420.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de go-live</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Ejecutar aceptación técnica de infraestructura.</td><td>2 h</td></tr>
+              <tr><td>Revisar preparación, responsables y plan de reversa.</td><td>2 h</td></tr>
+              <tr><td>Acompañar una ventana acordada de salida a producción.</td><td>4 h</td></tr>
+              <tr><td>Entregar runbooks, inventario y documentación operativa.</td><td>4 h</td></tr>
+              <tr><td>Transferir conocimiento al equipo de TI de Moderna.</td><td>2 h</td></tr>
+            </tbody></table>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">08</span><span class="milestone-label"><strong>Estabilización y reajuste</strong><span>Durante los 30 días posteriores al go-live</span></span><span class="milestone-hours">12 h</span><span class="milestone-amount">$360.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de estabilización</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Realizar dos revisiones programadas de operación y respaldo.</td><td>4 h</td></tr>
+              <tr><td>Revisar FinOps, desempeño y sizing con datos observados.</td><td>3 h</td></tr>
+              <tr><td>Ejecutar una remediación o reajuste aprobado dentro del alcance.</td><td>3 h</td></tr>
+              <tr><td>Documentar resultados y cerrar la entrega.</td><td>2 h</td></tr>
+            </tbody></table>
+          </details>
+        </div>
+        <p class="milestone-total">Total de servicios: 79.5 horas · $2,385.00 USD · tarifa de $30.00 USD/h.</p>
+        <p>Duración estimada: 2–3 semanas desde aprobación y disponibilidad de accesos, más 12 horas de estabilización distribuidas dentro de los 30 días posteriores al go-live. No equivale a disponibilidad permanente.</p>
+        <p>IaC presupone plantillas estándar reutilizables. Módulos a medida, integraciones adicionales o restricciones no identificadas requieren revisar el alcance antes de ejecutarlos.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="cloud-title">
+        <h2 id="cloud-title"><small>04 /</small>Costos de nube y alternativas.</h2>
+        <p>Estimación Azure en USD, Mexico Central, 730 horas/mes. La siguiente tabla desglosa únicamente la alternativa PAYG; no debe sumarse a las alternativas de reserva que aparecen después.</p>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Desglose de nube PAYG">
+          <table class="proposal-table cost-table" id="cloud-payg">
+            <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col">Descripción</th><th scope="col">Mensual USD</th><th scope="col">Anual USD</th></tr></thead>
+            <tbody>
+              <tr><td>VM + disco OS</td><td>Cómputo</td><td>D16s_v5 Ubuntu, 16 vCPU / 64 GiB; OS P6 de 64 GiB.</td><td>$628.08</td><td>$7,536.93</td></tr>
+              <tr><td>Disco P20</td><td>Almacenamiento</td><td>Premium SSD LRS, 512 GiB.</td><td>$80.53</td><td>$966.35</td></tr>
+              <tr><td>Disco P30</td><td>Almacenamiento</td><td>Premium SSD LRS, 1,024 GiB.</td><td>$148.67</td><td>$1,784.04</td></tr>
+              <tr><td>VPN Gateway</td><td>Conectividad</td><td>VpnGw1AZ, 730 h; 500 GB/mes de salida supuesta a corporativo.</td><td>$185.30</td><td>$2,223.60</td></tr>
+              <tr><td>Hub–Spoke</td><td>Redes</td><td>Dos VNets sin cargo base; peering con 500 GB por sentido/mes, supuesto.</td><td>$20.00</td><td>$240.00</td></tr>
+              <tr><td>Azure Backup</td><td>Protección</td><td>LRS, 1,600 GB protegidos y churn moderado supuestos.</td><td>$141.01</td><td>$1,692.13</td></tr>
+              <tr><td>IP Standard</td><td>Redes</td><td>Dos IP para VPN y NAT; VM privada.</td><td>$7.30</td><td>$87.60</td></tr>
+              <tr><td>NAT Gateway</td><td>Salida</td><td>730 h y 50 GB/mes procesados supuestos; tráfico Internet adicional según consumo.</td><td>$35.10</td><td>$421.20</td></tr>
+              <tr><td>Azure Monitor</td><td>Observabilidad</td><td>0.5 GB/día de logs, un mes de retención, cinco series métricas y dos alertas de logs.</td><td>$29.48</td><td>$353.76</td></tr>
+              <tr><td>Key Vault</td><td>Seguridad</td><td>Standard, 10,000 operaciones de secretos por mes supuestas.</td><td>$0.03</td><td>$0.40</td></tr>
+              <tr><td>Cost Management</td><td>FinOps</td><td>Vistas de consumo Azure, budgets y seguimiento.</td><td>$0.00</td><td>$0.00</td></tr>
+            </tbody>
+            <tfoot><tr><th scope="row" colspan="3">Total de nube: solo PAYG, provisional</th><td>$1,275.50</td><td>$15,306.01</td></tr></tfoot>
+          </table>
+        </div>
+        <p class="proposal-price-note">Totales PAYG tomados del cálculo con precisión original; las partidas mostradas están redondeadas. La anualización de reservas utiliza el monto mensual mostrado × 12.</p>
+        <div class="proposal-recurring"><h3>Tres alternativas. Un solo costo de nube.</h3><p>Las filas siguientes son escenarios completos y mutuamente excluyentes. Cada total ya incluye los demás servicios de nube: no sumes PAYG + reserva 1 año + reserva 3 años.</p></div>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Alternativas completas de costo Azure; no aditivas">
+          <table class="proposal-table cost-table" id="cloud-scenarios">
+            <thead><tr><th scope="col">Alternativa</th><th scope="col">Compromiso</th><th scope="col">Qué incluye</th><th scope="col">Total mensual USD</th><th scope="col">Total anual USD</th></tr></thead>
+            <tbody>
+              <tr data-scenario="payg" data-monthly="1275.50" data-annual="15306.01"><td>PAYG</td><td>Sin reserva</td><td>VM por uso + todos los servicios del escenario base.</td><td>$1,275.50</td><td>$15,306.01</td></tr>
+              <tr data-scenario="reservation-1y" data-monthly="1027.92" data-annual="12335.04"><td>Reserva 1 año</td><td>12 meses</td><td>Cómputo VM reservado; discos, redes, protección y demás servicios por uso.</td><td>$1,027.92</td><td>$12,335.04</td></tr>
+              <tr data-scenario="reservation-3y" data-monthly="891.03" data-annual="10692.36"><td>Reserva 3 años</td><td>36 meses</td><td>Cómputo VM reservado; discos, redes, protección y demás servicios por uso.</td><td>$891.03</td><td>$10,692.36</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="proposal-chart" data-proposal-chart="bars" data-chart-source="cloud-scenarios">
+          <figcaption>Comparativo de costo mensual de nube</figcaption>
+          <div class="chart-plot" hidden></div>
+          <p class="chart-note">USD/mes · escala desde cero. Cada barra es una alternativa completa; no se suman. Valores detallados en la tabla anterior.</p>
+        </figure>
+        <fieldset class="scenario-picker" hidden id="scenario-picker"><legend>Calculadora: elige una alternativa de nube</legend>
+          <label><input type="radio" name="cloud-plan" value="payg" checked> PAYG</label>
+          <label><input type="radio" name="cloud-plan" value="reservation-1y"> Reserva 1 año</label>
+          <label><input type="radio" name="cloud-plan" value="reservation-3y"> Reserva 3 años</label>
+        </fieldset>
+        <div class="proposal-recurring" id="scenario-result" role="status" aria-live="polite" aria-atomic="true"><h3>Única alternativa seleccionada</h3><p id="scenario-total">PAYG: $1,275.50 USD/mes · $15,306.01 USD/año. No se suma con otras alternativas.</p><p id="scenario-first-year">Primer año estimado, nube + implementación única: $17,691.01 USD antes de impuestos. Odoo y operación continua no incluidos.</p></div>
+        <p>Referencia comparativa a 36 meses con consumos constantes e implementación única: PAYG $48,303.03 USD; reserva 1 año $39,390.12 USD, suponiendo renovación al mismo precio cada año; reserva 3 años $34,462.08 USD. Son proyecciones, no precios garantizados ni importes aditivos.</p>
+        <p>Las reservas se refieren al cómputo elegible, no a toda la factura, y requieren aprobación de compromiso y modalidad de pago. El importe mensual es una referencia equivalente, no una promesa de facturación mensual de la reserva. Recomendamos confirmar sizing antes de comprometer capacidad.</p>
+        <p>Fuente: estimaciones Azure proporcionadas para PAYG, reserva a 1 año y reserva a 3 años. Los 500 GB/mes de salida, 500 GB por sentido de peering, 1,600 GB protegidos, churn y logs son supuestos presupuestales, no mediciones. Se ajustan con tráfico, ocupación, crecimiento e IOPS observados. La capacidad de VM no determina el egress.</p>
+        <p>No contempla cargos extraordinarios de restauración, recursos temporales de pruebas, sobreconsumos ni soporte técnico Azure de pago. El consumo real, impuestos y condiciones comerciales del cliente pueden modificar la factura.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="license-title">
+        <h2 id="license-title"><small>05 /</small>Licenciamiento.</h2>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Licencias incluidas en el alcance">
+          <table class="proposal-table cost-table">
+            <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col">Descripción</th><th scope="col">Mensual USD</th><th scope="col">Anual USD</th></tr></thead>
+            <tbody>
+              <tr><td>Ubuntu</td><td>Sistema operativo</td><td>Edición sin suscripción comercial de soporte.</td><td>$0.00</td><td>$0.00</td></tr>
+              <tr><td>PostgreSQL</td><td>Base de datos</td><td>Instalación autogestionada en la VM; sin soporte comercial contratado.</td><td>$0.00</td><td>$0.00</td></tr>
+              <tr><td>Azure DevOps</td><td>Entrega / IaC</td><td>Un usuario Basic, Azure Repos privado y Pipelines dentro del nivel gratuito. Validar habilitación y límites de ejecución.</td><td>$0.00</td><td>$0.00</td></tr>
+            </tbody>
+            <tfoot><tr><th scope="row" colspan="3">Total de licencias incluidas</th><td>$0.00</td><td>$0.00</td></tr></tfoot>
+          </table>
+        </div>
+        <p>Odoo, módulos, servicios de implementación funcional y licencias de terceros son a cargo del cliente y no están incluidos en el total de USD 0. No se declara que Odoo sea gratuito. No se incluyen Test Plans ni funcionalidades de pago de Azure DevOps.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="finops-title">
+        <h2 id="finops-title"><small>06 /</small>Gestión del costo y gobierno.</h2>
+        <ul>
+          <li>Base de Landing Zone proporcional: grupos de recursos, nomenclatura, separación Hub–Spoke y etiquetas de propietario, aplicación, ambiente y centro de costo.</li>
+          <li>Budget mensual aprobado según alternativa elegida; avisos propuestos al 50%, 80% y 100% del gasto y al 100% pronosticado. Los budgets notifican: no son un tope automático de consumo.</li>
+          <li>Dashboard de consumo por servicio y etiquetas; revisión de logs, respaldo, discos y tráfico para detectar crecimiento o recursos sin uso.</li>
+          <li>Accesos mínimos, secretos en Key Vault, VM sin IP pública y políticas base de región y exposición según capacidades del entorno. Alineación con Cloud Adoption Framework (CAF) y Well-Architected Framework (WAF); no implica certificación de cumplimiento ni un Web Application Firewall.</li>
+          <li>Dos revisiones posteriores al go-live y un reajuste aprobado de hasta 3 horas. Sin cambios destructivos ni compra de reservas sin aprobación del cliente.</li>
+        </ul>
+        <p>Beneficios sin honorarios adicionales: documentación operable, IaC versionado, visibilidad de consumo y transferencia. Cost Management, budgets, etiquetas y vistas estándar no requieren una licencia adicional; ingestión, alertas y demás recursos de Azure sí pueden generar consumo y están presupuestados donde aplica.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="comparison-title">
+        <h2 id="comparison-title"><small>07 /</small>Azure vs. on-premises.</h2>
+        <ul>
+          <li><strong>Inversión:</strong> Azure evita comprar otro servidor y convierte infraestructura en gasto recurrente. On-premises requiere cotizar hardware, garantía, energía, UPS, respaldo y espacio.</li>
+          <li><strong>Crecimiento:</strong> Azure facilita cambios de capacidad sujetos a disponibilidad y validación. En sitio depende de capacidad instalada y tiempos de adquisición.</li>
+          <li><strong>Conectividad:</strong> Azure depende del enlace corporativo y la VPN para usar Odoo privado. En sitio reduce esa dependencia local, pero mantiene riesgos de energía e infraestructura del corporativo.</li>
+          <li><strong>Protección:</strong> Azure habilita respaldos diarios y pruebas documentadas; no convierte una VM única en alta disponibilidad. On-premises necesita diseñar y financiar protección equivalente.</li>
+          <li><strong>Finanzas:</strong> reservas pueden reducir cómputo a cambio de compromiso. On-premises amortiza hardware, pero conserva costos de operación y renovación. No se afirma un ahorro porcentual ni TCO comparativo sin cotización equivalente del equipo.</li>
+        </ul>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="team-title">
+        <h2 id="team-title"><small>08 /</small>Equipo y dedicación.</h2>
+        <figure class="proposal-chart chart-pie" data-proposal-chart="pie">
+          <figcaption>Distribución de dedicación por perfil</figcaption>
+          <div class="chart-pie-layout">
+            <div class="chart-plot" hidden></div>
+            <ul class="chart-legend">
+              <li data-hours="16" data-label="Arquitectura"><span class="chart-swatch" aria-hidden="true"></span><span>Arquitectura y coordinación: 16 horas · 0.100 FTE-mes.</span></li>
+              <li data-hours="37.5" data-label="Azure / DevOps"><span class="chart-swatch" aria-hidden="true"></span><span>Ingeniería Azure / DevOps: 37.5 horas · 0.234 FTE-mes.</span></li>
+              <li data-hours="8" data-label="Redes"><span class="chart-swatch" aria-hidden="true"></span><span>Redes y FortiGate: 8 horas · 0.050 FTE-mes.</span></li>
+              <li data-hours="11" data-label="PostgreSQL"><span class="chart-swatch" aria-hidden="true"></span><span>PostgreSQL y recuperación: 11 horas · 0.069 FTE-mes.</span></li>
+              <li data-hours="7" data-label="FinOps"><span class="chart-swatch" aria-hidden="true"></span><span>FinOps y gobierno: 7 horas · 0.044 FTE-mes.</span></li>
+            </ul>
+          </div>
+          <p class="chart-note">Porcentaje de las 79.5 horas del proyecto; no representa disponibilidad permanente ni cinco personas dedicadas. Base: 160 horas por FTE-mes.</p>
+        </figure>
+        <p>Total: 79.5 horas, equivalentes a 0.497 FTE-mes sobre una base de 160 h/mes. Son perfiles de trabajo, no cinco personas dedicadas; un profesional puede cubrir varios perfiles. Las horas están distribuidas dentro de las etapas, no son adicionales.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="terms-title">
+        <h2 id="terms-title"><small>09 /</small>Condiciones y exclusiones.</h2>
+        <p>Honorarios: $2,385.00 USD antes de impuestos. Forma de pago propuesta: 50% al inicio ($1,192.50 USD) y 50% contra entrega técnica ($1,192.50 USD). Impuestos aplicables se desglosan en factura; cualquier conversión a MXN se acuerda antes de contratar.</p>
+        <p>El cliente proporciona suscripción Azure, permisos, conectividad, administración autorizada del FortiGate, contactos y disponibilidad del proveedor Odoo. Se validan cuotas y disponibilidad regional antes del despliegue. El cliente aprueba políticas, presupuesto y pruebas de aceptación; no se garantizan resultados de cumplimiento fiscal o regulatorio.</p>
+        <ul>
+          <li>Sin migración de contabilidad, carga de históricos, configuración funcional de Odoo, desarrollos de interfaces ni modificación de CONTPAQi o del servidor central.</li>
+          <li>Sin cambios en las 46 sucursales, VPN adicionales, acceso remoto, publicación de Odoo en Internet, WAF de aplicación, Azure Firewall ni Bastion.</li>
+          <li>Sin alta disponibilidad, réplica PostgreSQL, PITR/WAL, recuperación entre regiones, pruebas de carga extensivas ni SLA de aplicación.</li>
+          <li>Sin operación continua, mesa de ayuda, soporte funcional ni atención de incidentes posterior a las actividades de estabilización cotizadas.</li>
+          <li>Sin compra de hardware, licencias Odoo, soporte comercial, auditorías o certificaciones. Consumos de Azure se pagan directamente por el cliente.</li>
+          <li>Cambios de alcance, nuevas restricciones y trabajos que excedan la dedicación acordada requieren aprobación comercial previa.</li>
+        </ul>
+      </section>
+      <footer class="proposal-closing">
+        <p class="closing-message">Gracias por considerar esta propuesta. Queremos que este primer despliegue en Azure nazca con Landing Zone, Seguridad, Observabilidad, infraestructura documentada, conectividad controlada, respaldos comprobados y costos visibles.</p>
+        <p class="closing-salutation">Atentamente,</p>
+        <img class="proposal-signature" src="/assets/firma.png" width="120" height="147" alt="Firma de Hazael Pérez">
+        <strong>Hazael Pérez</strong><br>
+        <a class="text-link" href="mailto:me@hazaelperez.com">me@hazaelperez.com</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="quotes-footer proposal-shell"><span>Hazael Pérez · Cloud con intención.</span><a href="/quotes/">Volver a consulta</a></footer>
+</body>
+</html>
