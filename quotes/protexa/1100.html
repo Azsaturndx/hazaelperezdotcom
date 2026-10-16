@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>PTX-2026-1100 — Modernización de facturación</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/vendor/jspdf-4.2.1.umd.min.js" defer></script>
+  <script src="/quotes/proposal-pdf.js" defer></script>
+  <script src="/quotes/proposal.js" defer></script>
+  <script src="/quotes/proposal-charts.js" defer></script>
+</head>
+<body class="quotes-page">
+  <a href="#main" class="skip">Saltar al contenido</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="quotes-header proposal-shell">
+    <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
+    <nav class="proposal-nav" aria-label="Propuesta"><a class="text-link" href="/quotes/">← Volver a consulta</a><button id="export-proposal" class="button proposal-export" type="button" hidden>Export to PDF</button></nav>
+  </header>
+  <div class="proposal-shell export-feedback"><p id="export-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
+  <main id="main" class="proposal proposal-shell">
+    <article aria-labelledby="proposal-title">
+      <header class="proposal-hero">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PROPUESTA COMERCIAL / CLOUD CON INTENCIÓN</p>
+        <h1 id="proposal-title">Facturación conectada.<br> APIs, identidad y datos.</h1>
+        <p class="proposal-lead">Modernización del backend existente de Protexa: documentación de consumo, autenticación entre servicios con Microsoft Entra ID y acceso a una sola base de datos.</p>
+        <dl class="proposal-meta">
+          <div><dt>CLIENTE</dt><dd>Protexa</dd></div>
+          <div><dt>FOLIO</dt><dd data-proposal-folio>PTX-2026-1100</dd></div>
+          <div><dt>FECHA</dt><dd><time datetime="2026-10-15">15 de octubre de 2026</time></dd></div>
+          <div><dt>VIGENCIA</dt><dd>Por confirmar</dd></div>
+        </dl>
+      </header>
+
+      <section class="proposal-section" aria-labelledby="summary-title">
+        <h2 id="summary-title"><small>01 /</small>Resumen de propuesta.</h2>
+        <div class="proposal-highlights">
+          <div class="price-card price-card-feature"><span class="highlight-label">INVERSIÓN ÚNICA</span><strong>$1,440.00 <small>USD</small></strong><p>72 horas a USD 20/h, antes de impuestos.</p></div>
+          <div class="price-card"><span class="highlight-label">EJECUCIÓN + RESERVA TÉCNICA</span><strong>64 + 8 <small>horas</small></strong><p>USD 1,280 de ejecución y USD 160 de contingencia, ambos incluidos en el total.</p></div>
+          <div class="price-card"><span class="highlight-label">AHORRO POTENCIAL / MES</span><strong>$108.00 <small>USD</small></strong><p>USD 1,296 al año, sujeto a costos efectivamente evitables y bajas autorizadas.</p></div>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-card"><h3>Lo que entendemos.</h3><p>El backend actual requiere documentar sus APIs para facilitar la construcción del frontend, sustituir Auth0 M2M y consolidar el acceso a datos. El problema de tokens y las dependencias de la réplica deben revisarse antes de modificar la solución.</p></div>
+          <div class="summary-card"><h3>Cómo lo solucionamos.</h3><p>Documentar hasta cinco endpoints, utilizar Microsoft Entra ID existente para una API y un consumidor M2M, y conectar el backend a la DB original por la VPN existente, con un usuario dedicado de permisos mínimos.</p></div>
+          <div class="summary-card"><h3>Valor incluido.</h3><p>OpenAPI/Swagger, colección Postman, guía de integración, manual técnico, bitácora de cambios y repositorio Git en DevOps. Trabajo asistido por IA con revisión humana, validación funcional, correcciones y evidencias de calidad.</p></div>
+        </div>
+        <p class="proposal-price-note">La propuesta se basa en el archivo PTX-ModernizacionFacturacion.xlsx, hojas «Resumen de propuesta», «Actividades» y «Ahorros». No se altera la lógica funcional existente ni se incluye construir el frontend.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="scope-title">
+        <h2 id="scope-title"><small>02 /</small>Alcance y resultado esperado.</h2>
+        <div class="summary-grid">
+          <div class="summary-card"><h3>01. APIs documentadas</h3><p>Un proyecto existente y hasta cinco endpoints. Contrato OpenAPI/Swagger, parámetros, esquemas, errores y seguridad; ejemplos y guía contrastados con código y respuestas reales.</p></div>
+          <div class="summary-card"><h3>02. Identidad corporativa</h3><p>Una API y un consumidor M2M en un tenant corporativo: registros de aplicación, roles, validación de tokens, caché y adquisición automática de nuevos tokens. Las credenciales permanecen en servidor.</p></div>
+          <div class="summary-card"><h3>03. DB única</h3><p>Acceso a la base original mediante VPN existente; usuario dedicado con permisos mínimos, conexión actualizada y retiro de réplica y sincronización solamente después de validar y obtener autorización.</p></div>
+        </div>
+        <div class="proposal-recurring"><h3>Secuencia de implementación</h3><p>Revisión del backend → contrato de APIs → identidad M2M → conexión a la DB original → pruebas integradas, despliegue y transferencia.</p></div>
+        <p>Se conserva un mecanismo de reversión hasta validar el cambio. La cancelación de Auth0 depende de que este proyecto y sus consumidores ya no requieran el servicio, y de confirmar contratos y otros usos.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="activities-title">
+        <h2 id="activities-title"><small>03 /</small>Actividades, hitos y tiempos.</h2>
+        <p class="milestone-intro">Cada etapa muestra su inversión y horas. Abre el hito para consultar actividades y entregables. Las fechas son objetivo, no compromisos independientes de los accesos y ventanas del cliente.</p>
+        <div class="milestones">
+          <details class="milestone" open>
+            <summary><span class="milestone-index">M1</span><span class="milestone-label"><strong>Revisión inicial</strong><span>Objetivo: 4 de noviembre de 2026</span></span><span class="milestone-hours">7 h</span><span class="milestone-amount">$140.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de revisión inicial</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Sesión técnica para confirmar alcance y criterios de aceptación.</td><td>1 h</td></tr>
+              <tr><td>Revisar código, dependencias, configuración y despliegue actual.</td><td>2 h</td></tr>
+              <tr><td>Identificar endpoints, consumidor y causa del problema de tokens.</td><td>2 h</td></tr>
+              <tr><td>Mapear tablas, consultas, permisos y sincronización de réplica.</td><td>2 h</td></tr>
+            </tbody></table>
+            <p class="milestone-deliverable">Aceptación: código, endpoints, permisos y dependencias identificados; inventario técnico y alcance confirmados.</p>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">M2</span><span class="milestone-label"><strong>Documentación de APIs</strong><span>Objetivo: 6 de noviembre de 2026</span></span><span class="milestone-hours">12 h</span><span class="milestone-amount">$240.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de documentación</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Inventariar endpoints y verificar su comportamiento real.</td><td>2 h</td></tr>
+              <tr><td>Generar OpenAPI con parámetros, esquemas, errores y seguridad.</td><td>4 h</td></tr>
+              <tr><td>Preparar colección Postman, variables y ejemplos.</td><td>2 h</td></tr>
+              <tr><td>Elaborar guía para frontend y configuración por ambiente.</td><td>2 h</td></tr>
+              <tr><td>Validar documentación contra código y respuestas reales.</td><td>2 h</td></tr>
+            </tbody></table>
+            <p class="milestone-deliverable">Aceptación: endpoints documentados, ejemplos verificados y contrato de consumo entregado, sin credenciales sensibles.</p>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">M3</span><span class="milestone-label"><strong>Microsoft Entra ID / M2M</strong><span>Objetivo: 10 de noviembre de 2026</span></span><span class="milestone-hours">19 h</span><span class="milestone-amount">$380.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de identidad</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Definir identidades, roles y método de credencial.</td><td>2 h</td></tr>
+              <tr><td>Configurar registros, roles, asignaciones y consentimiento.</td><td>2 h</td></tr>
+              <tr><td>Adecuar validación de firma, emisor, audiencia, vigencia y roles.</td><td>5 h</td></tr>
+              <tr><td>Adecuar obtención, caché y adquisición automática de tokens.</td><td>3 h</td></tr>
+              <tr><td>Configurar resguardo seguro y documentar rotación de credenciales.</td><td>3 h</td></tr>
+              <tr><td>Probar acceso válido, expiración y casos negativos; corregir.</td><td>4 h</td></tr>
+            </tbody></table>
+            <p class="milestone-deliverable">Aceptación: autenticación M2M migrada; acceso válido, rechazo de accesos indebidos y adquisición de nuevos tokens probados. Manual técnico, bitácora y repositorio Git en DevOps.</p>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">M4</span><span class="milestone-label"><strong>Base de datos única</strong><span>Objetivo: 12 de noviembre de 2026</span></span><span class="milestone-hours">12 h</span><span class="milestone-amount">$240.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de base de datos</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Validar acceso del backend a DB original por VPN.</td><td>2 h</td></tr>
+              <tr><td>Configurar usuario dedicado y permisos mínimos.</td><td>2 h</td></tr>
+              <tr><td>Cambiar conexión y dependencias de réplica.</td><td>3 h</td></tr>
+              <tr><td>Verificar datos, permisos, tiempos y manejo de fallos.</td><td>3 h</td></tr>
+              <tr><td>Preparar reversión y retirar réplica/sincronización tras validar.</td><td>2 h</td></tr>
+            </tbody></table>
+            <p class="milestone-deliverable">Aceptación: backend conectado a la DB original, resultados y permisos verificados; retiro de réplica autorizado por el propietario.</p>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">M5</span><span class="milestone-label"><strong>Calidad, despliegue y cierre</strong><span>Objetivo: 16 de noviembre de 2026</span></span><span class="milestone-hours">14 h</span><span class="milestone-amount">$280.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Actividades de calidad y cierre</caption><thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead><tbody>
+              <tr><td>Revisar código generado, dependencias, secretos y errores.</td><td>3 h</td></tr>
+              <tr><td>Ejecutar integración y regresión de hasta 5 endpoints.</td><td>3 h</td></tr>
+              <tr><td>Corregir hallazgos finales y repetir pruebas afectadas.</td><td>2 h</td></tr>
+              <tr><td>Desplegar, hacer pruebas de humo y verificar logs.</td><td>4 h</td></tr>
+              <tr><td>Actualizar documentación, entregar evidencias y transferir.</td><td>2 h</td></tr>
+            </tbody></table>
+            <p class="milestone-deliverable">Aceptación: regresión y pruebas de humo satisfactorias; hallazgos críticos del alcance resueltos, entrega y sesión técnica aceptadas.</p>
+          </details>
+          <details class="milestone">
+            <summary><span class="milestone-index">R</span><span class="milestone-label"><strong>Reserva técnica incluida</strong><span>Según necesidad, dentro del alcance</span></span><span class="milestone-hours">8 h</span><span class="milestone-amount">$160.00 USD</span><span class="milestone-chevron" aria-hidden="true">+</span></summary>
+            <table class="proposal-table activity-table"><caption class="sr-only">Reserva de contingencia técnica</caption><thead><tr><th scope="col">Actividad / capacidad reservada</th><th scope="col">Horas</th></tr></thead><tbody><tr><td>Capacidad para ajustes menores a APIs por cambio de estructura de DB, con registro de cambios y horas utilizadas. No es una actividad de ejecución confirmada ni amplía el alcance.</td><td>8 h</td></tr></tbody></table>
+            <p class="milestone-deliverable">La contingencia ya está incluida en los USD 1,440; no se suma de nuevo. Otras mejoras requieren estimación separada.</p>
+          </details>
+        </div>
+        <p class="milestone-total">Total presupuestado: 72 horas · $1,440.00 USD · tarifa de $20.00 USD/h.</p>
+        <p>64 horas de ejecución (USD 1,280) y 8 horas de contingencia (USD 160). Arranque objetivo: 2 de noviembre de 2026. Cierre técnico objetivo: 16 de noviembre de 2026. Calendario lunes a viernes, ajustable a festivos, accesos, ventanas y disponibilidad del cliente.</p>
+        <p>Las horas incluyen generación asistida por IA, revisión humana, validación, correcciones y evidencias. Las pruebas por frente verifican componentes; la regresión final comprueba el funcionamiento integrado y conserva las funciones existentes.</p>
+        <figure class="proposal-chart chart-pie" data-proposal-chart="pie" data-chart-detail="hours">
+          <figcaption>Distribución de las horas presupuestadas</figcaption>
+          <div class="chart-pie-layout"><div class="chart-plot" hidden></div><ul class="chart-legend">
+            <li data-hours="7" data-label="Revisión inicial"><span class="chart-swatch" aria-hidden="true"></span><span>Revisión inicial · 7 h · USD 140</span></li>
+            <li data-hours="12" data-label="Documentación"><span class="chart-swatch" aria-hidden="true"></span><span>Documentación · 12 h · USD 240</span></li>
+            <li data-hours="19" data-label="Entra ID / M2M"><span class="chart-swatch" aria-hidden="true"></span><span>Entra ID / M2M · 19 h · USD 380</span></li>
+            <li data-hours="12" data-label="Base de datos"><span class="chart-swatch" aria-hidden="true"></span><span>Base de datos · 12 h · USD 240</span></li>
+            <li data-hours="14" data-label="Calidad y cierre"><span class="chart-swatch" aria-hidden="true"></span><span>Calidad y cierre · 14 h · USD 280</span></li>
+            <li data-hours="8" data-label="Reserva técnica"><span class="chart-swatch" aria-hidden="true"></span><span>Reserva técnica · 8 h · USD 160</span></li>
+          </ul></div>
+          <p class="chart-note">Base: 72 horas presupuestadas, incluida la contingencia de 8 h. Los porcentajes muestran distribución de esfuerzo, no número de personas ni FTE dedicados.</p>
+        </figure>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="savings-title">
+        <h2 id="savings-title"><small>04 /</small>Ahorro operativo potencial.</h2>
+        <p>Modelo referencial del Excel: DB espejo de tipo S2 y Auth0 Essentials. Son supuestos del archivo, no precios de mercado verificados ni ahorro garantizado. La sincronización no aporta ahorro adicional cuantificado, para evitar doble conteo.</p>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Ahorros de referencia en USD">
+          <table class="proposal-table cost-table">
+            <thead><tr><th scope="col">Concepto</th><th scope="col">Actual USD/mes</th><th scope="col">Posterior USD/mes</th><th scope="col">Ahorro USD/mes</th><th scope="col">Ahorro USD/año</th></tr></thead>
+            <tbody>
+              <tr><td>DB espejo (S2 supuesto)</td><td>$73.00</td><td>$0.00</td><td>$73.00</td><td>$876.00</td></tr>
+              <tr><td>Sincronización</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td></tr>
+              <tr><td>Auth0 Essentials (supuesto)</td><td>$35.00</td><td>$0.00</td><td>$35.00</td><td>$420.00</td></tr>
+            </tbody>
+            <tfoot><tr><th scope="row" colspan="3">Ahorro potencial de los rubros evaluados</th><td>$108.00</td><td>$1,296.00</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Comparación de costos evitables, no factura completa">
+          <table class="proposal-table cost-table" id="avoidable-costs">
+            <thead><tr><th scope="col">Estado</th><th scope="col">Categoría</th><th scope="col">Rubros evaluados</th><th scope="col">USD/mes</th><th scope="col">USD/año</th></tr></thead>
+            <tbody><tr data-monthly="108"><td>Actual</td><td>Costos evitables</td><td>DB espejo + Auth0; sincronización sin costo adicional cuantificado.</td><td>$108.00</td><td>$1,296.00</td></tr><tr data-monthly="0"><td>Posterior</td><td>Tras bajas</td><td>Únicamente estos rubros, si pueden cancelarse totalmente.</td><td>$0.00</td><td>$0.00</td></tr></tbody>
+          </table>
+        </div>
+        <figure class="proposal-chart" data-proposal-chart="bars" data-chart-source="avoidable-costs" data-chart-max="120">
+          <figcaption>Costos evitables antes y después</figcaption><div class="chart-plot" hidden></div>
+          <p class="chart-note">USD/mes, escala desde cero. Solo DB espejo y Auth0 del modelo de ahorro; no representa la factura completa de nube, DB original o licencias del cliente.</p>
+        </figure>
+        <div class="proposal-highlights">
+          <div class="price-card"><span class="highlight-label">AHORRO ANUAL POTENCIAL</span><strong>$1,296.00 <small>USD</small></strong><p>12 meses completos después de la baja efectiva.</p></div>
+          <div class="price-card"><span class="highlight-label">RECUPERACIÓN ESTIMADA</span><strong>13.33 <small>meses</small></strong><p>USD 1,440 / USD 108 al mes, si se materializa el ahorro.</p></div>
+          <div class="price-card"><span class="highlight-label">BENEFICIO NETO A 12 MESES</span><strong>-$144.00 <small>USD</small></strong><p>USD 1,296 de ahorro menos USD 1,440 de inversión. Aún no recupera la inversión en el primer año.</p></div>
+        </div>
+        <p>Los ahorros empiezan tras la baja efectiva, no al arranque del proyecto. Deben verificarse costos realmente cancelables, dependencias, contratos y posibles costos incrementales. Si estos cambian, se recalculan ahorro y recuperación.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="recurring-title">
+        <h2 id="recurring-title"><small>05 /</small>Nube y licenciamiento.</h2>
+        <p>Se trabaja sobre el backend, VPN, base original y Microsoft Entra ID existentes. El Excel no contiene una cotización integral de infraestructura ni de licencias posteriores al cambio. Por ello, estos importes quedan <strong>por evaluar</strong>, no se presentan como USD 0.</p>
+        <ul><li>Los USD 73/mes de DB espejo y USD 35/mes de Auth0 se utilizan solo como referencia de costos evitables.</li><li>Costos recurrentes y licencias adicionales, si aplican, se evalúan por separado y requieren aprobación antes de su contratación.</li><li>La disponibilidad de licencias y permisos corporativos de Entra ID debe confirmarse con el administrador del cliente.</li></ul>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="terms-title">
+        <h2 id="terms-title"><small>06 /</small>Inversión y condiciones.</h2>
+        <p>Inversión total: USD 1,440 antes de impuestos, incluida la reserva técnica. Tarifa: USD 20/h. Importes y fechas tomados del Excel; las horas son una estimación técnica preliminar que se confirma tras revisar código, motor de DB y ambientes.</p>
+        <div class="summary-grid payment-grid">
+          <div class="summary-card"><h3>50% · Anticipo</h3><p>USD 720 al inicio, con pago adelantado. Objetivo: 2 de noviembre de 2026. Condición: confirmación del arranque y disponibilidad de accesos.</p></div>
+          <div class="summary-card"><h3>50% · Cierre</h3><p>USD 720 al final, contra aceptación de entregables y pruebas acordadas. Objetivo: 16 de noviembre de 2026.</p></div>
+        </div>
+        <p>Vigencia comercial: por confirmar; no está indicada en el archivo. Los impuestos aplicables se desglosan al facturar. No se añaden honorarios ni condiciones de soporte no contemplados en la fuente.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="limits-title">
+        <h2 id="limits-title"><small>07 /</small>Supuestos y exclusiones.</h2>
+        <ul>
+          <li>Acceso a código y ambientes existentes desde el arranque; VPN operativa y administrador de Entra ID y DBA disponibles para permisos y consentimiento.</li>
+          <li>Un proyecto, hasta cinco endpoints, una API, un consumidor M2M, un tenant corporativo y una DB original accesible por VPN existente.</li>
+          <li>Se conserva la lógica funcional. No incluye frontend, nuevos endpoints, rediseño de datos ni migración de motor de base de datos.</li>
+          <li>M2M se ejecuta entre servicios y las credenciales quedan en servidor. La autenticación interactiva de usuarios del frontend se define y estima por separado si se requiere.</li>
+          <li>Retiro de réplica, sincronización y Auth0 coordinado con sus propietarios, después de validar dependencias y conservar una reversión. No se cancelan servicios automáticamente.</li>
+          <li>La reserva cubre ajustes menores con registro; cambios de alcance y otras mejoras requieren una nueva estimación. No se asume operación o soporte recurrente dentro de esta inversión.</li>
+        </ul>
+      </section>
+      <footer class="proposal-closing">
+        <p class="closing-message">Gracias por considerar esta propuesta. El objetivo es entregar APIs claras para su consumo, identidad corporativa entre servicios y acceso a datos simplificado, conservando el funcionamiento del backend y dejando evidencia de los cambios.</p>
+        <p class="closing-salutation">Atentamente,</p>
+        <img class="proposal-signature" src="/assets/firma.png" width="120" height="147" alt="Firma de Hazael Pérez">
+        <strong>Hazael Pérez</strong><br><a class="text-link" href="mailto:me@hazaelperez.com">me@hazaelperez.com</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="quotes-footer proposal-shell"><span>Hazael Pérez · Cloud con intención.</span><a href="/quotes/">Volver a consulta</a></footer>
+</body>
+</html>

@@ -31,7 +31,7 @@
         angle = end;
       });
     } else {
-      const max = Math.ceil(Math.max(...model.items.map(item => item.value)) / 500) * 500;
+      const max = model.max || Math.ceil(Math.max(...model.items.map(item => item.value)) / 500) * 500;
       const left = 145, length = 430;
       [0, max / 2, max].forEach(value => {
         const x = left + value / max * length;
