@@ -20,6 +20,14 @@
     };
   }
 
+  function readChart(figure) {
+    const kind = figure.dataset.proposalChart;
+    const items = kind === 'pie'
+      ? [...figure.querySelectorAll('[data-hours]')].map(node => ({ label: node.dataset.label, value: Number(node.dataset.hours) }))
+      : [...figure.ownerDocument.getElementById(figure.dataset.chartSource).tBodies[0].rows].map(row => ({ label: text(row.cells[0]), value: Number(row.dataset.monthly) }));
+    return { type: 'chart', kind, title: text(figure.querySelector('figcaption')), items, note: text(figure.querySelector('.chart-note')) };
+  }
+
   function readBlocks(parent) {
     const blocks = [];
     for (const child of parent.children) {
@@ -39,7 +47,8 @@
           hours: text(child.querySelector('.milestone-hours')), amount: text(child.querySelector('.milestone-amount')),
           table: readTable(child.querySelector('table'))
         });
-      } else if (child.tagName === 'TABLE') blocks.push(readTable(child));
+      } else if (child.matches('[data-proposal-chart]')) blocks.push(readChart(child));
+      else if (child.tagName === 'TABLE') blocks.push(readTable(child));
       else if (child.tagName === 'P' && !child.matches('.milestone-intro')) blocks.push({ type: 'paragraph', text: text(child) });
       else if (child.tagName === 'UL' || child.tagName === 'OL') {
         blocks.push({ type: 'list', items: [...child.children].map(text) });
@@ -185,6 +194,50 @@
       y += 15;
     }
 
+    function chart(block) {
+      const colors = [[110,143,68],[74,128,150],[173,126,66],[132,104,153],[91,141,119]];
+      ensure(245);
+      paragraph(block.title, { size: 12, bold: true, after: 9 });
+      if (block.kind === 'pie') {
+        const total = block.items.reduce((sum, item) => sum + item.value, 0);
+        const cx = margin + 87, cy = y + 82, radius = 73;
+        let angle = -Math.PI / 2;
+        block.items.forEach((item, index) => {
+          const end = angle + item.value / total * Math.PI * 2;
+          const points = [[0,0]];
+          for (let step = 0; step <= 60; step++) {
+            const a = angle + (end - angle) * step / 60;
+            points.push([radius * Math.cos(a), radius * Math.sin(a)]);
+          }
+          const relative = points.slice(1).map((p, i) => [p[0] - points[i][0], p[1] - points[i][1]]);
+          doc.setFillColor(...colors[index % colors.length]);
+          doc.lines(relative, cx, cy, [1,1], 'F', true);
+          const ly = y + index * 31;
+          doc.rect(margin + 190, ly, 9, 9, 'F');
+          font(10, true); doc.text(clean(item.label), margin + 209, ly + 8);
+          font(9, false, muted); doc.text(`${item.value} h / ${(item.value / total * 100).toFixed(1)}% / ${(item.value / 160).toFixed(3)} FTE-mes`, margin + 209, ly + 21);
+          angle = end;
+        });
+        y += 173;
+      } else {
+        const max = Math.ceil(Math.max(...block.items.map(item => item.value)) / 500) * 500;
+        const left = margin + 110, length = width - 185;
+        [0, max / 2, max].forEach(value => {
+          const x = left + value / max * length;
+          doc.setDrawColor(...line); doc.line(x, y, x, y + 133);
+          font(8, false, muted); doc.text(`$${value.toLocaleString('en-US')}`, x, y + 148, { align: 'center' });
+        });
+        block.items.forEach((item, index) => {
+          const top = y + index * 45, barWidth = item.value / max * length;
+          font(10); doc.text(clean(item.label), left - 10, top + 18, { align: 'right' });
+          doc.setFillColor(...green); doc.roundedRect(left, top, barWidth, 28, 3, 3, 'F');
+          font(9, true); doc.text(`$${item.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, left + barWidth + 8, top + 18);
+        });
+        y += 165;
+      }
+      paragraph(block.note, { size: 9, color: muted });
+    }
+
     function milestone(block) {
       const title = wrap(block.title, width - 180, 12, true);
       const height = Math.max(56, title.length * 16 + 36);
@@ -225,6 +278,7 @@
         } else if (block.type === 'highlights') highlights(block.cards);
         else if (block.type === 'table') table(block);
         else if (block.type === 'milestone') milestone(block);
+        else if (block.type === 'chart') chart(block);
       }
     }
 
@@ -246,5 +300,5 @@
     }
     return doc;
   }
-  return { readProposal, create, filename };
+  return { readProposal, readChart, create, filename };
 });
