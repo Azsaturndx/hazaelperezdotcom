@@ -25,7 +25,7 @@
     const items = kind === 'pie'
       ? [...figure.querySelectorAll('[data-hours]')].map(node => ({ label: node.dataset.label, value: Number(node.dataset.hours) }))
       : [...figure.ownerDocument.getElementById(figure.dataset.chartSource).tBodies[0].rows].map(row => ({ label: text(row.cells[0]), value: Number(row.dataset.monthly) }));
-    return { type: 'chart', kind, title: text(figure.querySelector('figcaption')), items, note: text(figure.querySelector('.chart-note')) };
+    return { type: 'chart', kind, detail: figure.dataset.chartDetail || 'fte', max: Number(figure.dataset.chartMax) || null, title: text(figure.querySelector('figcaption')), items, note: text(figure.querySelector('.chart-note')) };
   }
 
   function readBlocks(parent) {
@@ -47,6 +47,7 @@
           hours: text(child.querySelector('.milestone-hours')), amount: text(child.querySelector('.milestone-amount')),
           table: readTable(child.querySelector('table'))
         });
+        for (const note of child.querySelectorAll('.milestone-deliverable')) blocks.push({ type: 'paragraph', text: text(note) });
       } else if (child.matches('[data-proposal-chart]')) blocks.push(readChart(child));
       else if (child.tagName === 'TABLE') blocks.push(readTable(child));
       else if (child.tagName === 'P' && !child.matches('.milestone-intro')) blocks.push({ type: 'paragraph', text: text(child) });
@@ -173,9 +174,15 @@
       const headHeight = Math.max(...headLines.map(cell => cell.length)) * leading + padding * 2;
       function heading() { drawCells(headLines, headHeight, { heading: true }); }
       ensure(headHeight + leading * 2 + padding * 2); heading();
-      for (const row of [...block.rows, ...block.totals]) {
+      for (const [rowIndex, row] of [...block.rows, ...block.totals].entries()) {
         let lines = row.cells.map((cell, i) => wrap(cell, widths[i] - padding * 2, size, row.total));
         let remaining = Math.max(...lines.map(cell => cell.length));
+        // Keep the final detail row with its first subtotal where both fit on a page.
+        if (rowIndex === block.rows.length - 1 && block.totals.length) {
+          const totalLines = block.totals[0].cells.map((cell, i) => wrap(cell, widths[i] - padding * 2, size, true));
+          const pairHeight = (remaining + Math.max(...totalLines.map(cell => cell.length))) * leading + padding * 4;
+          if (y + pairHeight > bottom && pairHeight < bottom - 70 - headHeight) { nextPage(); heading(); }
+        }
         if (y + remaining * leading + padding * 2 > bottom && remaining * leading + padding * 2 < bottom - 70 - headHeight) {
           nextPage(); heading();
         }
@@ -195,8 +202,8 @@
     }
 
     function chart(block) {
-      const colors = [[110,143,68],[74,128,150],[173,126,66],[132,104,153],[91,141,119]];
-      ensure(245);
+      const colors = [[110,143,68],[74,128,150],[173,126,66],[132,104,153],[91,141,119],[180,100,112]];
+      ensure(Math.max(245, block.items.length * 31 + 80));
       paragraph(block.title, { size: 12, bold: true, after: 9 });
       if (block.kind === 'pie') {
         const total = block.items.reduce((sum, item) => sum + item.value, 0);
@@ -215,12 +222,13 @@
           const ly = y + index * 31;
           doc.rect(margin + 190, ly, 9, 9, 'F');
           font(10, true); doc.text(clean(item.label), margin + 209, ly + 8);
-          font(9, false, muted); doc.text(`${item.value} h / ${(item.value / total * 100).toFixed(1)}% / ${(item.value / 160).toFixed(3)} FTE-mes`, margin + 209, ly + 21);
+          const detail = block.detail === 'hours' ? '' : ` / ${(item.value / 160).toFixed(3)} FTE-mes`;
+          font(9, false, muted); doc.text(`${item.value} h / ${(item.value / total * 100).toFixed(1)}%${detail}`, margin + 209, ly + 21);
           angle = end;
         });
-        y += 173;
+        y += Math.max(173, block.items.length * 31 + 10);
       } else {
-        const max = Math.ceil(Math.max(...block.items.map(item => item.value)) / 500) * 500;
+        const max = block.max || Math.ceil(Math.max(...block.items.map(item => item.value)) / 500) * 500;
         const left = margin + 110, length = width - 185;
         [0, max / 2, max].forEach(value => {
           const x = left + value / max * length;
@@ -230,7 +238,7 @@
         block.items.forEach((item, index) => {
           const top = y + index * 45, barWidth = item.value / max * length;
           font(10); doc.text(clean(item.label), left - 10, top + 18, { align: 'right' });
-          doc.setFillColor(...green); doc.roundedRect(left, top, barWidth, 28, 3, 3, 'F');
+          if (barWidth > 0) { doc.setFillColor(...green); doc.roundedRect(left, top, barWidth, 28, 3, 3, 'F'); }
           font(9, true); doc.text(`$${item.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, left + barWidth + 8, top + 18);
         });
         y += 165;
@@ -267,7 +275,7 @@
 
     for (const section of model.sections) {
       const minimum = section.blocks.some(block => block.type === 'milestone') ? 235
-        : section.blocks.some(block => block.type === 'table') ? 190 : 110;
+        : section.blocks.some(block => block.type === 'table') ? 190 : 160;
       sectionTitle(section.title, minimum);
       for (const block of section.blocks) {
         if (block.type === 'paragraph') paragraph(block.text);

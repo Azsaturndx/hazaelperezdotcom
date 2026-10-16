@@ -135,6 +135,10 @@
 .chart-series-2 { fill: #dcb67b; background: #dcb67b; }
 .chart-series-3 { fill: #bca2d8; background: #bca2d8; }
 .chart-series-4 { fill: #7dbba4; background: #7dbba4; }
+.chart-series-5 { fill: #d48f9b; background: #d48f9b; }
+.proposal-section .milestone-deliverable { margin: 0 22px 20px; font-size: 12px; }
+.payment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 600px) { .payment-grid { grid-template-columns: 1fr; } }
 .chart-pie-layout { display: grid; grid-template-columns: minmax(170px, 240px) 1fr; gap: 28px; align-items: center; }
 .proposal-section .chart-legend { padding: 0; margin: 0; list-style: none; }
 .chart-legend li { display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
