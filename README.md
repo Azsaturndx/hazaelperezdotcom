@@ -10,6 +10,8 @@ Sitio personal estático en HTML, CSS y JavaScript. Diseño oscuro con tarjetas 
 
 ## Interacciones
 
+- **CV Digital:** `/cv/`, accesible desde la navegación de escritorio/móvil y desde la invitación al final de trayectoria. Página estática independiente con estilos de marca, navegación de secciones, lectura progresiva, experiencia desplegable y expansión global. No carga el script de la portada ni dependencias externas. El CV está en español; sus enlaces en la portada se traducen junto con la navegación existente.
+
 - **Propuestas comerciales:** acceso desde el pie o `/quotes/`. Instrucciones, reglas, plantilla, privacidad y validación en [QUOTES.md](QUOTES.md).
 
 - Botón EN / ES: cambia el idioma de la página y de la consola.
@@ -39,6 +41,17 @@ El perfil público identificado es [Geronimo Hazael Pérez Antonio](https://mx.l
 Los porcentajes de clientes fueron indicados por el titular. No se incluyen nombres, logotipos de clientes ni detalles confidenciales. Los nombres de plataformas se usan únicamente para describir áreas de trabajo, sin sugerir un aval de sus fabricantes. La página expresa un perfil profesional personal.
 
 No se modificó el perfil de LinkedIn ni se publicó el sitio. Sin backend, analítica, cookies de seguimiento, CDN, fuentes remotas o frameworks. El formulario de propuestas consulta únicamente archivos HTML del mismo sitio. Se puede alojar en cualquier hosting estático. El efecto de cristal utiliza `backdrop-filter`, con fondo alternativo para navegadores que no lo admitan.
+
+## CV Digital: contenido y mantenimiento
+
+- Contenido: `cv/index.html`; estilos específicos: `cv/cv.css`; mejoras progresivas: `cv/cv.js`. La paleta y tipografía se heredan de `styles.css`. El HTML mantiene información y navegación disponibles sin JavaScript. Las animaciones son sutiles, respetan movimiento reducido y no animan contadores ni simulan niveles de competencia.
+- Fuentes: PDF «CV HazaelPerez2026.pdf» proporcionado por el titular (dos páginas), capturas de los cargos de iNBest y Kyndryl, información profesional ya existente en el sitio y aclaraciones del titular en esta conversación. No se consultaron ni modificaron perfiles externos.
+- Actualización a octubre de 2026: Kyndryl desde mayo de 2026, iNBest de septiembre de 2024 a marzo de 2025. Onesec de marzo a julio de 2025, confirmado por el titular; no se asignó un cargo ni responsabilidades porque no se proporcionaron. Dotech de agosto de 2025 a abril de 2026: intervalo inferido **por instrucción explícita del titular** para situarlo entre Onesec y Kyndryl, no fechas verificadas documentalmente. Las etapas de Big Wave Data y la formación conservan los años del PDF.
+- USD 19M+ describe valor de oportunidades acompañadas desde preventa, no ventas cerradas. 50+ corresponde a demos y pruebas de concepto de la trayectoria acumulada. No se atribuyen esas cifras exclusivamente al empleador actual. Se preserva la confidencialidad de clientes; el texto digital omite la valoración económica de la venta de Big Wave Data.
+- `assets/cv-hazael-perez-2026-original.pdf` es una copia sin modificar del documento entregado. La descarga está identificada como **CV original**: contiene datos y fechas anteriores a las actualizaciones de esta versión digital. No se presenta como un nuevo PDF actualizado. Para sustituirlo, revisar previamente sus datos de contacto y trayectoria.
+- El CV incorpora estilos de impresión y expansión visual de los detalles al imprimir; no se añadió exportación programática ni se modificó la descarga de propuestas.
+- Pruebas: `node --test tests/cv.test.cjs tests/quotes.test.cjs tests/proposal.test.cjs tests/nic-mg.test.cjs tests/protexa.test.cjs`. Se verifican archivos, enlaces, metadatos, fechas, controles de expansión, ausencia de dependencias remotas y compatibilidad con las suites de propuestas. La verificación visual automatizada de esta entrega quedó pendiente por un bloqueo de acceso de la herramienta del navegador. Revisar manualmente escritorio, móvil, impresión, movimiento reducido y navegación antes de publicar.
+- Trabajo desarrollado en `codex/digital-cv`; integración en `main` autorizada por el titular el 27 de octubre de 2026. El PDF fuente original en Descargas no fue modificado.
 
 ## Archivos
 

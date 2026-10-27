@@ -9,7 +9,8 @@
   let toastTimer;
 
   const english = {
-    skip: 'Skip to content', navAbout: 'About', navExpertise: 'Expertise', navJourney: 'Journey', navContact: 'Let’s talk', quotesLink: 'View proposal',
+    skip: 'Skip to content', navAbout: 'About', navExpertise: 'Expertise', navJourney: 'Journey', navContact: 'Let’s talk', quotesLink: 'View proposal', navCv: 'Digital CV',
+    cvInviteLabel: 'DIGITAL CV / THE COMPLETE JOURNEY', cvInviteTitle: 'Every chapter. A wider perspective.', cvInviteBody: 'Experience, capabilities and education, all in one place.',
     heroEyebrow: 'STRATEGY. ARCHITECTURE. IMPACT.', heroLine1: 'Cloud with', heroLine2: 'intention.',
     heroDescription: 'I connect business decisions with cloud architecture. From technical complexity to a clear next step.',
     heroCta: 'Let’s build what’s next', heroSecondary: 'Explore my approach', heroLocation: 'Monterrey, Mexico · Global perspective',
