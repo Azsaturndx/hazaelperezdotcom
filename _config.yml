@@ -5,9 +5,14 @@ defaults:
       path: "quotes"
     values:
       sitemap: false
+  - scope:
+      path: "aurora"
+    values:
+      sitemap: false
 exclude:
   - README.md
   - QUOTES.md
+  - AURORA.md
   - build.py
   - tests
   - _templates
