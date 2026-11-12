@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>PTX-2026-PCR-01 | Continuidad del correo de facturación</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quotes/quotes.css">
+  <script src="/quotes/vendor/jspdf-4.2.1.umd.min.js" defer></script>
+  <script src="/quotes/proposal-pdf.js" defer></script>
+  <script src="/quotes/proposal.js" defer></script>
+</head>
+<body class="quotes-page">
+  <a href="#main" class="skip">Saltar al contenido</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="quotes-header proposal-shell">
+    <a class="wordmark" href="/" aria-label="Hazael Pérez, inicio">hp<span>_</span></a>
+    <nav class="proposal-nav" aria-label="Propuesta"><a class="text-link" href="/quotes/">← Volver a consulta</a><button id="export-proposal" class="button proposal-export" type="button" hidden>Export to PDF</button></nav>
+  </header>
+  <div class="proposal-shell export-feedback"><p id="export-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
+  <main id="main" class="proposal proposal-shell">
+    <article aria-labelledby="proposal-title" data-proposal-kind="pcr">
+      <header class="proposal-hero">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>PCR / PROJECT CHANGE REQUEST</p>
+        <h1 id="proposal-title">Continuidad del correo de facturación.</h1>
+        <p class="proposal-lead">Sustitución de SendGrid por el servicio SMTP existente de Protexa para mantener operativos los envíos de facturación durante el cambio de partner.</p>
+        <dl class="proposal-meta">
+          <div><dt>CLIENTE</dt><dd>Protexa</dd></div>
+          <div><dt>FOLIO</dt><dd data-proposal-folio>PTX-2026-PCR-01</dd></div>
+          <div><dt>FECHA</dt><dd><time datetime="2026-11-12">12 de noviembre de 2026</time></dd></div>
+          <div><dt>ESTADO</dt><dd>Para aprobación</dd></div>
+        </dl>
+      </header>
+
+      <section class="proposal-section" aria-labelledby="pcr-reason">
+        <h2 id="pcr-reason"><small>01 /</small>Motivo y alcance del cambio.</h2>
+        <p>Durante el cambio de partner de facturación de Microsoft, el recurso SendGrid actual no puede transferirse. Si se retira sin un reemplazo validado, se interrumpirían los envíos de facturas SAP, a petición y programados.</p>
+        <div class="proposal-recurring">
+          <h3>Se agrega al proyecto vigente.</h3>
+          <p>Este PCR incorpora únicamente la continuidad del correo. El alcance y los entregables de la propuesta original se mantienen sin cambios.</p>
+          <p>Propuesta original: <strong>PTX-2026-1100</strong>.</p>
+          <p><a class="text-link pcr-reference" data-proposal-reference href="https://hazaelperez.com/quotes/protexa/1100.html" target="_blank" rel="noopener noreferrer">https://hazaelperez.com/quotes/protexa/1100.html</a></p>
+        </div>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="pcr-activities">
+        <h2 id="pcr-activities"><small>02 /</small>Solución y actividades.</h2>
+        <p>Eliminar la dependencia de SendGrid en los flujos de facturación incluidos y mover los envíos al SMTP corporativo que Protexa ya tiene, sin contratar otro servicio de correo.</p>
+        <div class="pcr-activities">
+          <table class="proposal-table activity-table">
+            <caption class="sr-only">Actividades y esfuerzo estimado del cambio</caption>
+            <thead><tr><th scope="col">Actividad</th><th scope="col">Horas</th></tr></thead>
+            <tbody>
+              <tr><td><strong>01. Respaldo y revisión.</strong> Guardar las versiones de las tres Logic Apps, el procedimiento almacenado y el paquete desplegado. Identificar las dependencias de correo.</td><td>0.5 h</td></tr>
+              <tr><td><strong>02. Reconstrucción y recompilación de la Function App.</strong> Recuperar el proyecto desde el paquete compilado, ajustar <code>EnviarMail</code> a SMTP sin cambiar su interfaz y generar un nuevo paquete de despliegue.</td><td>2 h</td></tr>
+              <tr><td><strong>03. Facturación SAP.</strong> Actualizar la Logic App de facturación y ajustar el procedimiento almacenado que prepara los datos del correo.</td><td>0.5 h</td></tr>
+              <tr><td><strong>04. Envío a petición.</strong> Ajustar la Logic App para usar la ruta de envío actualizada.</td><td>1 h</td></tr>
+              <tr><td><strong>05. Envío programado.</strong> Adaptar la Logic App del programador y conservar su calendario operativo.</td><td>0.5 h</td></tr>
+              <tr><td><strong>06. Pruebas integradas.</strong> Validar una factura SAP con sus adjuntos, un envío a petición y un ciclo controlado del programador.</td><td>1 h</td></tr>
+            </tbody>
+            <tfoot><tr><th scope="row">Esfuerzo estimado</th><td><strong>5.5 h</strong></td></tr></tfoot>
+          </table>
+        </div>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="pcr-acceptance">
+        <h2 id="pcr-acceptance"><small>03 /</small>Validación y retiro.</h2>
+        <p><strong>Criterio de aceptación:</strong> los tres escenarios entregan correo por SMTP al destinatario esperado, con el remitente autorizado, los adjuntos cuando correspondan y sin envíos duplicados durante las pruebas.</p>
+        <p>Protexa confirma una cuenta SMTP existente habilitada, acceso desde los componentes y una ventana para el cambio. El recurso anterior se retira únicamente con autorización del cliente, una vez comprobado que no quedan dependencias activas. Hasta entonces se conservan las versiones previas para reversión.</p>
+      </section>
+
+      <section class="proposal-section" aria-labelledby="pcr-investment">
+        <h2 id="pcr-investment"><small>04 /</small>Inversión del cambio.</h2>
+        <div class="proposal-investment glass"><p><strong>160 USD</strong></p></div>
+      </section>
+
+      <footer class="proposal-closing">
+        <p class="closing-message">Quedo atento a su aprobación para coordinar la ventana y validar los envíos con su equipo.</p>
+        <p class="closing-salutation">Atentamente,</p>
+        <img class="proposal-signature" src="/assets/firma.png" width="120" height="147" alt="Firma de Hazael Pérez">
+        <strong>Hazael Pérez</strong><br><a class="text-link" href="mailto:me@hazaelperez.com">me@hazaelperez.com</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="quotes-footer proposal-shell"><span>Hazael Pérez · Cloud con intención.</span><a href="/quotes/">Volver a consulta</a></footer>
+</body>
+</html>

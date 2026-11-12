@@ -50,7 +50,13 @@
         for (const note of child.querySelectorAll('.milestone-deliverable')) blocks.push({ type: 'paragraph', text: text(note) });
       } else if (child.matches('[data-proposal-chart]')) blocks.push(readChart(child));
       else if (child.tagName === 'TABLE') blocks.push(readTable(child));
-      else if (child.tagName === 'P' && !child.matches('.milestone-intro')) blocks.push({ type: 'paragraph', text: text(child) });
+      else if (child.tagName === 'P' && !child.matches('.milestone-intro')) {
+        const reference = child.querySelector('a[data-proposal-reference]');
+        const url = reference?.getAttribute('href');
+        if (url && /^https:\/\/[^\s]+$/.test(url) && text(child) === text(reference)) {
+          blocks.push({ type: 'reference', text: text(reference), url });
+        } else blocks.push({ type: 'paragraph', text: text(child) });
+      }
       else if (child.tagName === 'UL' || child.tagName === 'OL') {
         blocks.push({ type: 'list', items: [...child.children].map(text) });
       } else if (child.tagName !== 'H3') blocks.push(...readBlocks(child));
@@ -64,6 +70,7 @@
     const closing = article.querySelector('.proposal-closing');
     return {
       title: text(article.querySelector('h1')), lead: text(article.querySelector('.proposal-lead')),
+      kind: article.getAttribute('data-proposal-kind'),
       folio: text(article.querySelector('[data-proposal-folio]')),
       meta: [...article.querySelectorAll('.proposal-meta > div')].map(item => ({ label: text(item.querySelector('dt')), value: text(item.querySelector('dd')) })),
       notice: text(article.querySelector('.proposal-demo')),
@@ -106,18 +113,20 @@
     function header() {
       font(17, true); doc.text('hp', margin, 34);
       doc.setTextColor(...green); doc.text('_', margin + 21, 34);
-      font(8, false, muted); doc.text('HAZAEL PÉREZ / PROPUESTA COMERCIAL', pageW - margin, 31, { align: 'right' });
+      font(8, false, muted); doc.text(model.kind === 'pcr' ? 'HAZAEL PÉREZ / PROJECT CHANGE REQUEST' : 'HAZAEL PÉREZ / PROPUESTA COMERCIAL', pageW - margin, 31, { align: 'right' });
       doc.setDrawColor(...line); doc.setLineWidth(.5); doc.line(margin, 45, pageW - margin, 45);
     }
     function nextPage() { doc.addPage(); header(); y = 70; }
     function ensure(height) { if (y + height > bottom) nextPage(); }
-    function paragraph(value, { size = 10.5, bold = false, color = ink, indent = 0, after = 11 } = {}) {
+    function paragraph(value, { size = 10.5, bold = false, color = ink, indent = 0, after = 11, url } = {}) {
       const lines = wrap(value, width - indent, size, bold);
       const leading = size * 1.43;
       ensure(Math.min(lines.length, 3) * leading);
       for (const row of lines) {
         ensure(leading); font(size, bold, color);
-        doc.text(row, margin + indent, y); y += leading;
+        doc.text(row, margin + indent, y);
+        if (url) doc.link(margin + indent, y - size, doc.getTextWidth(row), leading, { url });
+        y += leading;
       }
       y += after;
     }
@@ -279,6 +288,7 @@
       sectionTitle(section.title, minimum);
       for (const block of section.blocks) {
         if (block.type === 'paragraph') paragraph(block.text);
+        else if (block.type === 'reference') paragraph(block.text, { color: green, url: block.url });
         else if (block.type === 'subheading') {
           ensure(55); paragraph(block.text, { size: 12, bold: true, after: 3 });
         } else if (block.type === 'list') {
