@@ -69,6 +69,8 @@
 .proposal-investment { padding: 26px; border-radius: 14px; margin-bottom: 22px; }
 .proposal-investment strong { display: block; font-size: 34px; letter-spacing: -.04em; line-height: 1.3; margin-block: 8px; }
 .proposal-investment .mono { color: var(--accent); }
+.pcr-reference { overflow-wrap: anywhere; }
+.pcr-activities .activity-table { width: 100%; margin: 14px 0 0; }
 .proposal-closing { padding-top: 32px; break-inside: avoid; }
 .proposal-closing p { color: var(--muted); max-width: 620px; }
 .proposal-signature { width: 82px; height: auto; margin-block: 20px 12px; }
