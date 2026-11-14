@@ -82,4 +82,7 @@ test('English AI CV is reachable from the original and has valid section and ass
   const credentials = tailored.match(/<ul class="cv-credentials">[\s\S]*?<\/ul>/)[0];
   assert.equal((credentials.match(/<img\b/g) || []).length, 4);
   assert.match(credentials, /FY25 participant/);
+  const portrait = tailored.match(/<aside class="cv-portrait-card"[\s\S]*?<\/aside>/)[0];
+  assert.match(portrait, /Kyndryl[\s\S]+Associate Director<br>Customer Technology Advisor — Cloud/);
+  assert.match(tailored, /<\/nav>\s*<div class="cv-download-bar[^"]*">\s*<a[^>]+\.pdf" download>/);
 });
