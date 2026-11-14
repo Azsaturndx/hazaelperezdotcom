@@ -34,7 +34,11 @@ test('CV reflects supplied career corrections without inventing Onesec responsib
 test('CV progressive enhancements toggle native jobs and keep reduced-motion content visible', () => {
   const callbacks = {};
   const jobs = [true,false,false].map(open=>({open,addEventListener(){}}));
-  const button = { hidden:true,addEventListener(name,fn){callbacks[name]=fn;} };
+  const button = {
+    hidden: true,
+    dataset: { expandLabel: 'Expandir toda la trayectoria +', collapseLabel: 'Contraer toda la trayectoria −' },
+    addEventListener(name, fn) { callbacks[name] = fn; }
+  };
   const progress = {style:{}};
   const links = [{hash:'#perfil',setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];}}];
   vm.runInNewContext(script, {
@@ -60,4 +64,22 @@ test('homepage exposes the digital CV in desktop/mobile navigation and translate
   const css = fs.readFileSync(path.join(root,'cv/cv.css'),'utf8');
   assert.match(css,/prefers-reduced-motion/); assert.match(css,/@media print/);
   assert.doesNotMatch(html, /https?:\/\/(?:fonts|cdn|unpkg)/);
+});
+
+test('English AI CV is reachable from the original and has valid section and asset links', () => {
+  const folder = path.join(root, 'cv/ai');
+  const tailored = fs.readFileSync(path.join(folder, 'index.html'), 'utf8');
+  assert.match(html, /href="\/cv\/ai\/" hreflang="en"/);
+  assert.match(tailored, /<html lang="en"/);
+  assert.match(tailored, /href="\.\.\/index\.html" hreflang="es"/);
+  for (const [, url] of tailored.matchAll(/(?:href|src)="(\.\.\/[^"]+)"/g)) {
+    assert.ok(fs.existsSync(path.resolve(folder, url)), url);
+  }
+  const ids = new Set([...tailored.matchAll(/id="([^"]+)"/g)].map(match => match[1]));
+  for (const [, id] of tailored.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(id), id);
+  assert.match(tailored, /data-expand-label="Expand all roles \+"/);
+  assert.equal((tailored.match(/<details class="cv-job\b/g) || []).length, 7);
+  const credentials = tailored.match(/<ul class="cv-credentials">[\s\S]*?<\/ul>/)[0];
+  assert.equal((credentials.match(/<img\b/g) || []).length, 4);
+  assert.match(credentials, /FY25 participant/);
 });

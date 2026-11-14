@@ -6,9 +6,10 @@
   const links = [...document.querySelectorAll('.cv-nav a')];
   const button = document.getElementById('cv-expand');
   const jobs = [...document.querySelectorAll('details.cv-job')];
+  const labels = button.dataset;
   function updateExpandLabel() {
     const allOpen = jobs.every(job => job.open);
-    button.textContent = allOpen ? 'Contraer toda la trayectoria −' : 'Expandir toda la trayectoria +';
+    button.textContent = allOpen ? labels.collapseLabel : labels.expandLabel;
   }
   button.addEventListener('click', () => {
     const open = !jobs.every(job => job.open);
@@ -16,6 +17,7 @@
     updateExpandLabel();
   });
   jobs.forEach(job => job.addEventListener('toggle', updateExpandLabel));
+  updateExpandLabel();
   button.hidden = false;
 
   if ('IntersectionObserver' in window && !reduced.matches) {
@@ -36,7 +38,9 @@
   function updatePosition() {
     const limit = document.documentElement.scrollHeight - innerHeight;
     progress.style.transform = `scaleX(${limit > 0 ? Math.min(1, Math.max(0, scrollY / limit)) : 0})`;
-    const active = [...sections].reverse().find(section => section.getBoundingClientRect().top <= 155) || sections[0];
+    const atEnd = limit > 0 && scrollY >= limit - 2;
+    const active = atEnd ? sections.at(-1) :
+      [...sections].reverse().find(section => section.getBoundingClientRect().top <= 155) || sections[0];
     links.forEach(link => {
       if (link.hash === `#${active.id}`) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
